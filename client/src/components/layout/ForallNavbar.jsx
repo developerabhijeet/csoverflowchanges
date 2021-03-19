@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Collapse,
   Navbar,
@@ -8,27 +9,27 @@ import {
   NavLink,
 
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import download from './download.png'
 
 export class ForallNavbar extends Component {
   render() {
     return (
       <div>
-        <Navbar className="light" color="light" light expand="md">
+        <Navbar className="light navigation" color="orange" light expand="md">
           <NavbarToggler />
           <Collapse navbar>
-            <Nav navbar>
+            <Nav navbar className="">
               <NavItem>
-                <NavLink><Link to="/">CSOverFlow</Link></NavLink>
+                <NavLink><Link to="/"><img src={download} className="logonav" alt="logo" /></Link></NavLink>
               </NavItem>
               <NavItem className="blank">
-                <NavLink></NavLink>
+                <NavLink><Link to="/">   </Link></NavLink>
               </NavItem>
               <NavItem className="blank">
                 <NavLink><Link to="/">Home</Link></NavLink>
               </NavItem>
               <NavItem>
-                <NavLink><Link to="/">Profile</Link></NavLink>
+                <NavLink><Link to="/profile">Profile</Link></NavLink>
               </NavItem>
               <NavItem>
                 <NavLink><Link to="/login">Login</Link></NavLink>
@@ -37,7 +38,7 @@ export class ForallNavbar extends Component {
                 <NavLink><Link to="/signup">Singup</Link></NavLink>
               </NavItem>
               <NavItem>
-                <NavLink><Link to="/">Logout</Link></NavLink>
+                <NavLink><Link to="/login">Logout</Link></NavLink>
               </NavItem>
 
             </Nav>
@@ -48,4 +49,5 @@ export class ForallNavbar extends Component {
     )
   }
 }
+
 export default ForallNavbar;
