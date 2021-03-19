@@ -8,7 +8,8 @@ const signUpTemplate = new mongoose.Schema({
   email:{
     type: String,
     required: true,
-    lowercase: true
+    lowercase: true,
+    unique: true
   },
   password:{
     type: String,
@@ -33,4 +34,4 @@ const signUpTemplate = new mongoose.Schema({
   }
 })
 
-module.exports = mongoose.model('usertable',signUpTemplate)
+module.exports = mongoose.model('usetable',signUpTemplate)
