@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const signUpTemplateCopy  = require('../models/SignupModels')
+const Post = require('../models/Post');
+const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt')
 
 router.post('/signup', async (request, response)=>{
@@ -19,6 +21,20 @@ router.post('/signup', async (request, response)=>{
     response.json(data)
   })
   .catch(error=>{
+    response.json(error)
+  })
+})
+
+
+router.post('/post', async(request, response)=>{
+  const posted = new Post({
+    name: request.body.name,
+    post: request.body.post
+  })
+  posted.save()
+  .then(data=>{
+    response.json(data)
+  }).catch(error=>{
     response.json(error)
   })
 })

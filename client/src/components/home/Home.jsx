@@ -4,9 +4,38 @@ import {
   Container, Form,
   Button} from 'reactstrap';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
 class Home extends Component {
+  state={
+    name:'',
+    post:'',
+    posts: [],
+  }
+  componentDidMount = () =>{
+    this.getDetails();
+  }
+  getDetails = () =>{
+    axios.get('/').then((response)=>{
+      const data= response.data;
+      this.setState({posts:data});
+      console.log('data is recieved')
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
+ displayPost = (posts)=>{
+   if(!posts.length) return null;
+
+  return posts.map((post,index)=>{
+     <div key={index}>
+       <h2>{post.post}</h2>
+       <p>{post.name}</p>
+     </div>
+   });
+  };
+  
   render(){
+   console.log(this.state);
     return (
     <div>
       <center>
@@ -22,7 +51,10 @@ class Home extends Component {
             </MDBCol>
             <Button className="btn-submit">Comment</Button>
           </Form>
-          </Container>
+          <Container>
+        </Container>
+        </Container>
+
     </div>
   )
 }
