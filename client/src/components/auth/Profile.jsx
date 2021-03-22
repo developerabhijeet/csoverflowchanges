@@ -1,28 +1,32 @@
-import React from 'react'
-import { Table } from 'reactstrap';
-const Profile = () => {
+import React,{Component} from 'react'
+import UserTable from './UserTable';
+import axios from 'axios';
+class Profile extends Component {
+  constructor(props){
+    super(props);
+    this.state = { usersCollection:[] };
+  }  
+
+componentDidMount = () =>{
+    axios.get('http://localhost:4000/app/profile')
+    .then(res => {
+        this.setState({ usersCollection: res.data });
+    })
+    .catch(function (error) {
+        console.log(error);
+    })
+}
+dataTable() {
+  return this.state.usersCollection.map((data, i) => {
+      return <UserTable obj={data} key={i} />;
+  });
+}
+  render(){
   return (
     <div className="profile">
-     <Table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Name</th>
-          <th>Bio</th>
-          <th>Technology</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>I am Developer</td>
-          <td>ReactJS</td>
-        </tr>
-      </tbody>
-    </Table>
-    </div>
+    {this.dataTable()}
+         </div>
   )
 }
-
+}
 export default Profile;

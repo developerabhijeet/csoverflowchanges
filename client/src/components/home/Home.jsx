@@ -5,35 +5,28 @@ import {
   Button} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import DataTable from './data-table';
 class Home extends Component {
-  state={
-    name:'',
-    post:'',
-    posts: [],
-  }
-  componentDidMount = () =>{
-    this.getDetails();
-  }
-  getDetails = () =>{
-    axios.get('/').then((response)=>{
-      const data= response.data;
-      this.setState({posts:data});
-      console.log('data is recieved')
-    }).catch((err)=>{
-      console.log(err);
-    })
-  }
- displayPost = (posts)=>{
-   if(!posts.length) return null;
+  constructor(props){
+    super(props);
+    this.state = { postsCollection:[] };
+  }  
 
-  return posts.map((post,index)=>{
-     <div key={index}>
-       <h2>{post.post}</h2>
-       <p>{post.name}</p>
-     </div>
-   });
-  };
-  
+componentDidMount = () =>{
+    axios.get('http://localhost:4000/app')
+    .then(res => {
+        this.setState({ postsCollection: res.data });
+    })
+    .catch(function (error) {
+        console.log(error);
+    })
+}
+dataTable() {
+  return this.state.postsCollection.map((data, i) => {
+      return <DataTable obj={data} key={i} />;
+  });
+}
+
   render(){
    console.log(this.state);
     return (
@@ -44,19 +37,17 @@ class Home extends Component {
         </div>
       </center>
       <Container className="home">
-          <p>Problem 1:</p>
-          <Form className="form">
-            <MDBCol md="8" className="post-text-center">
-              <MDBInput type="textarea" label="Enter Your Answers above" rows="3" />
-            </MDBCol>
-            <Button className="btn-submit">Comment</Button>
-          </Form>
+          
           <Container>
+       {this.dataTable()}
         </Container>
+ 
+
         </Container>
 
     </div>
   )
 }
 }
+
 export default Home;

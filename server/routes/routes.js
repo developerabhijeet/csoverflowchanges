@@ -29,13 +29,37 @@ router.post('/signup', async (request, response)=>{
 router.post('/post', async(request, response)=>{
   const posted = new Post({
     name: request.body.name,
-    post: request.body.post
+    post: request.body.post,
+    domain: request.body.domain
+
   })
   posted.save()
   .then(data=>{
     response.json(data)
   }).catch(error=>{
     response.json(error)
+  })
+})
+
+
+router.route('/').get((req, res) => {
+  Post.find((error, data) => {
+      if (error) {
+          return next(error)
+      } else {
+          res.json(data)
+      }
+  })
+})
+
+
+router.route('/profile').get((req, res) => {
+  User.find((error, data) => {
+      if (error) {
+          return next(error)
+      } else {
+          res.json(data)
+      }
   })
 })
 
