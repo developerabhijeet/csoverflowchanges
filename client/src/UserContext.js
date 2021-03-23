@@ -1,4 +1,4 @@
 
 import { createContext } from 'react';
 
-export const UserContext = createContext(this.User);
+export const UserContext = createContext(null);
