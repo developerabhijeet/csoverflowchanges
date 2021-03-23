@@ -71,7 +71,7 @@ class Post extends Component {
               type="text"
               name="domain"
               id="domain"
-              placeholder="Enter The Problem"
+              placeholder="Enter The Problem Domain"
               onChange={this.changeDomain}
               value={this.state.domain} />
             <Button className="btn-submit">Post</Button>
