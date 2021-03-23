@@ -4,8 +4,16 @@ const mongoose = require('mongoose')
 const dotenv  = require('dotenv')
 const routeUrls = require('./routes/routes')
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser')
 const cors = require('cors')
 dotenv.config()
+
+app.get('/get-cookies',(req,res)=>{
+  const cookies = req.cookies;
+  console.log(cookies);
+  res.json(cookies);
+})
+
 
 mongoose.connect(process.env.DATABASE_ACCESS,()=>console.log("database connected successfullly"));
 

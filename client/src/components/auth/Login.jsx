@@ -1,91 +1,55 @@
+import React, { useContext,useState } from 'react'
+import { Redirect } from 'react-router-dom';
+import { UserContext } from '../../UserContext';
 import {
+
   Container, Col, Form,
   FormGroup, Label, Input,
   Button,
 } from 'reactstrap';
-import Axios from 'axios';
-import React, { Component } from "react";
-import { Redirect } from 'react-router-dom';
-import { connect } from "react-redux";
-import { login } from '../../actions/auth';
 
-const required = (value) => {
-  if (!value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        This field is required!
-      </div>
-    );
-  }
-};
 
-class Login extends Component{
-  constructor(props) {
-    super(props);
-    this.handleLogin = this.handleLogin.bind(this);
-    this.onChangeEmail = this.onChangeEmail.bind(this);
-    this.onChangePassword = this.onChangePassword.bind(this);
-
-    this.state = {
-      email: "",
-      password: "",
-      loading: false,
-    };
-  }
-
-  onChangeEmail(e) {
-    this.setState({
-      Email: e.target.value,
-    });
-  }
-
-  onChangePassword(e) {
-    this.setState({
-      password: e.target.value,
-    });
-  }
-  handleLogin(e) {
+const Login= ()=>{  
+  const {user, setUser} = useContext(UserContext);
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+  const submitHandler = async e=>{
     e.preventDefault();
-
-    this.setState({
-      loading: true,
-    });
-
-    this.form.validateAll();
-
-    const { dispatch, history } = this.props;
-
-    if (this.checkBtn.context._errors.length === 0) {
-      dispatch(login(this.state.email, this.state.password))
-        .then(() => {
-          history.push("/profile");
-          window.location.reload();
-        })
-        .catch(() => {
-          this.setState({
-            loading: false
-          });
-        });
-    } else {
-      this.setState({
-        loading: false,
+    setEmailError('');
+    setPasswordError('');
+    console.log(email,password)
+    try{
+      const res = await fetch('http://localhost:4000/app/login',{
+      
+      method: 'POST',
+        credentials: 'include',
+        body: JSON.stringify({email,password}),
+        headers:{'Content-Type': 'application/json'}
       });
+      const data = await res.json();
+      console.log(data);
+      if(data.errors){
+        setEmailError(data.errors.email);
+        
+        setPasswordError(data.errors.password);
+      }
+      if(data.user){
+        setUser(data.user)
+      }
+    }catch(error){
+      console.log(error);
+
     }
   }
-
-  
-  render(){
-
-    const { isLoggedIn, message } = this.props;
-
-    if (isLoggedIn) {
-      return <Redirect to="/profile" />;
-    }
-
+  if(user){
+    return <Redirect to="/"/>
+  }
     return (
       <Container className="login">
         <h2>Sign In</h2>
-        <Form className="form" onSubmit={login}>
+        <Form className="form" onSubmit={submitHandler}>
           <Col>
             <FormGroup>
               <Label>Email*</Label>
@@ -94,10 +58,11 @@ class Login extends Component{
                 name="email"
                 id="exampleEmail"
                 placeholder="myemail@email.com"
-                value={this.state.email}
-                onChange={this.onChangeEmail}
-                validations={[required]}
+                value={email} 
+                onChange = {e=>setEmail(e.target.value)}
               />
+                           <div className="email error red-text">{emailError}</div>
+              <label htmlFor="email">Email</label>
             </FormGroup>
           </Col>
           <Col>
@@ -108,37 +73,18 @@ class Login extends Component{
                 name="password"
                 id="examplePassword"
                 placeholder="********"
-                value={this.state.password}
-                onChange={this.onChangePassword}
-                validations={[required]}
+                value={password} 
+                onChange = {e=>setPassword(e.target.value)}
               />
+              <div className="password error red-text">{passwordError}</div>
+            <label htmlFor="password">Password</label>
             </FormGroup>
           </Col>
-          <Button className="btn-submit"  disabled={this.state.loading}>Submit
-          {this.state.loading && (
-                  <span className="spinner-border spinner-border-sm"></span>
-                )}
-                </Button>
-
-                {message && (
-              <div className="form-group">
-                <div className="alert alert-danger" role="alert">
-                  {message}
-                </div>
-              </div>
-            )}
+          <Button className="btn-submit">Submit</Button>
         </Form>
       </Container>
     );
   }
-}
-function mapStateToProps(state) {
-  const { isLoggedIn } = state.auth;
-  const { message } = state.message;
-  return {
-    isLoggedIn,
-    message
-  };
-}
 
-export default connect(mapStateToProps)(Login);
+
+export default Login;
