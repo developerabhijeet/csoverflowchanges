@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Collapse,
@@ -9,45 +9,48 @@ import {
   NavLink,
 
 } from 'reactstrap';
+import { UserContext } from '../../UserContext';
 import download from './download.png'
+import SignedOutNav from './SignedOutNav';
+import SignedInNav from './SignedInNav';
 
-export class ForallNavbar extends Component {
-  render() {
-    return (
-      <div>
-        <Navbar className="light navigation" color="orange" light expand="md">
-          <NavbarToggler />
-          <Collapse navbar>
-            <Nav navbar className="">
-              <NavItem>
-                <NavLink><Link to="/"><img src={download} className="logonav" alt="logo" /></Link></NavLink>
-              </NavItem>
-              <NavItem className="blank">
-                <NavLink><Link to="/">   </Link></NavLink>
-              </NavItem>
-              <NavItem className="blank">
-                <NavLink><Link to="/">Home</Link></NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink><Link to="/profile">Profile</Link></NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink><Link to="/login">Login</Link></NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink><Link to="/signup">Singup</Link></NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink><Link to="/login">Logout</Link></NavLink>
-              </NavItem>
+const ForallNavbar = () => {
+  const { user, setUser } = useContext(UserContext)
+  const logout = async () => {
+    try {
+      const res = await fetch('http://localhost:4000/logout', {
+      });
+      const data = res.json();
+      console.log('logout data', data);
+      setUser(null);
+    } catch (error) {
+      console.log(error);
+    }
 
-            </Nav>
-          </Collapse>
-
-        </Navbar>
-      </div>
-    )
   }
+  const menu = user ? <SignedInNav logout={logout} /> : <SignedOutNav />
+  return (
+    <div>
+      <Navbar className="light navigation" color="orange" light expand="md">
+        <NavbarToggler />
+        <Collapse navbar>
+          <Nav navbar className="">
+            <NavItem>
+              <NavLink><Link to="/"><img src={download} className="logonav" alt="logo" /></Link></NavLink>
+            </NavItem>
+            <NavItem className="blank">
+              <NavLink><Link to="/">   </Link></NavLink>
+            </NavItem>
+
+            {menu}
+
+          </Nav>
+        </Collapse>
+
+      </Navbar>
+    </div>
+  )
 }
+
 
 export default ForallNavbar;

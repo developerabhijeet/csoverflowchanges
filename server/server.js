@@ -18,10 +18,12 @@ app.get('/get-cookies',(req,res)=>{
 mongoose.connect(process.env.DATABASE_ACCESS,()=>console.log("database connected successfullly"));
 
 app.use(express.json())
+
+app.use(cookieParser());
 app.use(bodyParser.json());
-// app.use(bodyParser.urlencode({
-//   extended: true
-// }))
+app.use(bodyParser.urlencoded({
+  extended: true
+}))
 app.use(cors())
 app.use('/app', routeUrls)
 app.listen(4000,()=>console.log("server is running at 4000"))
