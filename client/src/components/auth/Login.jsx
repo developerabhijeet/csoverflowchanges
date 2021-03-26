@@ -26,13 +26,14 @@ const Login = () => {
 
         method: 'POST',
         body: JSON.stringify({ email, password }),
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json',
+      "Authorization":"Bearer"+localStorage.getItem('user') }
       });
       const data = await res.json();
       console.log(data);
       setUser(res.data)
       // store the user in localStorage
-      localStorage.setItem('user', res.data)
+      localStorage.setItem('user', JSON.stringify(res.data))
       console.log(res.data)
       if (data.errors) {
         setEmailError(data.errors.email);

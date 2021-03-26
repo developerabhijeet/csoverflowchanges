@@ -57,9 +57,8 @@ router.route('/').get((req, res) => {
   })
 })
 
-
-router.route('/view/id').get((req, res) => {
-  Post.find(id,(error, data) => {
+router.route('/user').get((req, res) => {
+  User.find((error, data) => {
     if (error) {
       return next(error)
     } else {
@@ -67,6 +66,22 @@ router.route('/view/id').get((req, res) => {
     }
   })
 })
+
+
+
+
+router.route('/post/:id').get(function(req, res) {
+  let id = req.params.id;
+  try{
+  Post.findById(id, function(err, data) {
+      res.json(data);
+      console.log(data);
+  });
+}catch(err){
+  console.log(err)
+}
+
+});
 
 
 const alertError = (err) => {

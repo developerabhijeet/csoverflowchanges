@@ -9,6 +9,8 @@ import Post from './components/post/Post';
 import Profile from './components/auth/Profile';
 import { UserContext } from './UserContext';
 import ForallNavbar from './components/layout/ForallNavbar';
+import View from './components/home/View';
+import Search from './search/Search';
 function App() {
   const [user,setUser] = useState(null)
   useEffect(()=>{
@@ -33,8 +35,11 @@ function App() {
         <Route exact path="/" render = {() => (user ?  (<Home />) : (<Redirect to="/login" />))}/>
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
-        <Route path="/post" render = {() => (user ?  (<Post/>) : (<Redirect to="/login" />))}/>
+        <Route exact path="/post" render = {() => (user ?  (<Post user={user}/>) : (<Redirect to="/login" />))}/>
         <Route path="/profile" render = {() => (user ?  (<Profile  user={user} />) : (<Redirect to="/login" />))}/>
+      <Route exact path="/post/:id" render = {() => (user ?  (<View/>) : (<Redirect to="/login" />))}/>
+      
+       <Route path="/user" render = {() => (user ?  (<Search/>) : (<Redirect to="/login" />))}/>
       </Switch>
       </UserContext.Provider>
       <Footer />

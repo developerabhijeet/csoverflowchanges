@@ -1,10 +1,9 @@
 import React, { Component, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link,Redirect } from 'react-router-dom';
 import axios from 'axios';
 import DataTable from './data-table';
-
-import {
-  Container, Col, Form,
+import Search from '../../search/Search';
+import {Container, Col, Form,
   FormGroup, Label, Input,
   Button,
 } from 'reactstrap';
@@ -15,8 +14,6 @@ class Home extends Component {
     this.state = { postsCollection: [], userCollection: [] };
 
   }
-
-
 
   componentDidMount = () => {
     axios.get('http://localhost:4000/app')
@@ -33,8 +30,10 @@ class Home extends Component {
       return <DataTable obj={data} key={i} />
     });
   }
-  
+
   render() {
+  
+
 
 
 
@@ -48,23 +47,10 @@ class Home extends Component {
           </div>
         </center>
         <Container className="home">
-          <Form className="form">
-            <Col>
-              <FormGroup>
-                <Label>Search</Label>
-                <Input
-                  type="text"
-                  name="search"
-                  id="search"
-                  placeholder="Type the name of user to find"
-
-                />
-                <Button>SEARCH</Button>
-              </FormGroup>
-            </Col>
-          </Form>
+          <Search/>
           <Container>
             {this.dataTable()}
+            
           </Container>
 
 

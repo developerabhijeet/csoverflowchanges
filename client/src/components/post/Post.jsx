@@ -6,8 +6,8 @@ import {
 } from 'reactstrap';
 import axios from 'axios';
 class Post extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       name: '',
       post: '',

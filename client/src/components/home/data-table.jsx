@@ -2,12 +2,22 @@ import React, { Component } from 'react';
 import { Table } from 'reactstrap';
 import Comments from './comments';
 import './post.css';
+import { Link } from 'react-router-dom';
+import View from './View'
+
 class DataTable extends Component {
+
   render() {
-    console.log(this.props.obj._id)
+    
+    const objec = this.props.obj;
+  
+    View(objec)
+    console.log(objec)
     return (
 
       <Table>
+
+<h1>{this.props.key}</h1>
         <thead>
           <tr>
 
@@ -17,25 +27,28 @@ class DataTable extends Component {
           </tr>
         </thead>
         <tbody>
-          <tr>
+          
 
-            <td className="post">
-            <tr>{this.props.obj._id}</tr>
-              {this.props.obj.post}
-            </td>
+            <tr className="post">
+
+              <td>{this.props.obj.post}</td>
+              
+            
             <td>
               {this.props.obj.name}
             </td>
             <td>
               {this.props.obj.domain}
             </td>
-          </tr>
-          <tr>
+      
+          <td>
             {this.props.obj.date}
-          </tr>
-          <tr>
-            <Comments />
-          </tr>
+          </td>
+          <td>
+            <Link to={`/post/${this.props.obj._id}`}>ViewPost </Link>
+          </td>
+      </tr>
+    
         </tbody>
       </Table>
     );

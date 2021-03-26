@@ -5,10 +5,12 @@ import {
   Button
 } from 'reactstrap';
 class Comments extends Component {
+ 
   render() {
     return (
       <div>
-        <Form className="form">
+        <Form className="form" onSubmit={(e)=>{e.preventDefault()
+        console.log(e.target.value)}}>
           <MDBCol md="8" className="post-text-center">
             <MDBInput type="textarea" label="Enter Your Answers above" rows="3" />
           </MDBCol>
