@@ -6,13 +6,11 @@ import { Link } from 'react-router-dom';
 import View from './View'
 
 class DataTable extends Component {
+  
 
   render() {
     
-    const objec = this.props.obj;
-  
-    View(objec)
-    console.log(objec)
+   
     return (
 
       <Table>
