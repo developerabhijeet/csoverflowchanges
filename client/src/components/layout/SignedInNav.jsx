@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 import {
   NavItem,
   NavLink,
@@ -7,14 +7,15 @@ import {
 import { Link } from 'react-router-dom';
 
 
-const SignedInNav = ({ logout }) => {
+const SignedInNav = ({logout, users}) => {
+  
   return (
     <>
       <NavItem className="blank">
         <NavLink><Link to="/">Home</Link></NavLink>
       </NavItem>
       <NavItem>
-        <NavLink><Link to="/profile">Profile</Link></NavLink>
+        <NavLink><Link to={`/profile/${users._id}`}>Profile</Link></NavLink>
       </NavItem>
 
       <NavItem>

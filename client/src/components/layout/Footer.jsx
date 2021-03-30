@@ -9,7 +9,7 @@ const Footer = () => {
           <MDBCol md="6">
             <h5 className="title">Footer Content</h5>
             <p>
-           Welcome to footer
+              Welcome to footer
             </p>
           </MDBCol>
           <MDBCol md="6" className="link-footer">
@@ -33,7 +33,7 @@ const Footer = () => {
       </MDBContainer>
       <div className="footer-copyright text-center py-3">
         <MDBContainer fluid>
-       &copy; Copyright: {new Date().getFullYear()}  </MDBContainer>
+          &copy; Copyright: {new Date().getFullYear()}  </MDBContainer>
       </div>
     </MDBFooter>
   );

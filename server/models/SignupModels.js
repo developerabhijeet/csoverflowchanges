@@ -1,55 +1,66 @@
 const mongoose = require('mongoose')
-const {isEmail} = require('validator')
 const bcrypt = require('bcrypt');
 const signUpTemplate = new mongoose.Schema({
-  name:{
+  name: {
     type: String,
     required: true
   },
-  email:{
+  email: {
     type: String,
     required: true,
     lowercase: true,
     unique: true
   },
-  password:{
+  password: {
     type: String,
     required: true,
-    minlength:6  
+    minlength: 6
   },
-  bio:{
+  bio: {
     type: String,
     required: true
   },
-  jobtitle:{
+  jobtitle: {
     type: String,
     required: true
   },
-  tech:{
+  tech: {
     type: String,
     required: true
   },
-  date:{
+  image:{
+    type: String,
+    required: true
+ 
+  },
+  date: {
     type: Date,
     default: Date.now
   }
 })
-signUpTemplate.pre('save',async function(next){
-  const salt = await bcrypt.genSalt();
-  this.password = await bcrypt.hash(this.password, salt);
-  
-  next()
-})
-signUpTemplate.statics.login = async function(email,password){
-  const user = await this.findOne({email});
-  if(user){
-    const isAuthenticated  = await bcrypt.compare(password, user.password);
-    if(isAuthenticated){
+// signUpTemplate.pre('save', async function (next) {
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt);
+//   next()
+// })
+signUpTemplate.statics.login = async function (email, password) {
+
+  const user = await this.findOne({ email });
+  console.log(email)
+  console.log(user)
+  if (user) {
+
+    const isAuthenticated = await bcrypt.compare(password, user.password);
+    console.log(isAuthenticated)
+    //console.log(user);
+    if (isAuthenticated) {
       return user;
     }
+    else{
     throw Error('incorrect pwd');
-  }else{
+  }
+}else {
     throw Error('incorrect email');
   }
 }
-module.exports = mongoose.model('usetable',signUpTemplate)
+module.exports = mongoose.model('usetable', signUpTemplate)

@@ -9,15 +9,13 @@ class Post extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      name: '',
+      name: props.user.name,
       post: '',
       domain: ''
     }
   }
   changeName = (event) => {
-    this.setState({
-      name: event.target.value
-    })
+    alert("You are not allowed to change name")
   }
 
   changePost = (event) => {
@@ -63,10 +61,9 @@ class Post extends Component {
               type="text"
               name="name"
               id="name"
-              placeholder="Enter Your Full Name"
+              placeholder="You are not allowed to change name"
               onChange={this.changeName}
               value={this.state.name} />
-
             <Input
               type="text"
               name="domain"

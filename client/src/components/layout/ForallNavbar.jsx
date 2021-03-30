@@ -14,7 +14,7 @@ import download from './download.png'
 import SignedOutNav from './SignedOutNav';
 import SignedInNav from './SignedInNav';
 
-const ForallNavbar = () => {
+const ForallNavbar = ({users}) => {
   const { user, setUser } = useContext(UserContext)
   const logout = async () => {
     try {
@@ -28,7 +28,7 @@ const ForallNavbar = () => {
     }
 
   }
-  const menu = user ? <SignedInNav logout={logout} /> : <SignedOutNav />
+  const menu = user ? <SignedInNav logout={logout} users={users} /> : <SignedOutNav />
   return (
     <div>
       <Navbar className="light navigation" color="orange" light expand="md">

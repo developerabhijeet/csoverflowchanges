@@ -7,34 +7,35 @@ import {
   FormGroup, Label, Input,
   Button,
 } from 'reactstrap';
-
-
 const Login = () => {
   const { user, setUser } = useContext(UserContext);
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
+ 
   const submitHandler = async e => {
     e.preventDefault();
     setEmailError('');
     setPasswordError('');
-  
+
     console.log(email, password)
     try {
       const res = await fetch('http://localhost:4000/app/login', {
 
         method: 'POST',
         body: JSON.stringify({ email, password }),
-        headers: { 'Content-Type': 'application/json',
-      "Authorization":"Bearer"+localStorage.getItem('user') }
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization": "Bearer" + localStorage.getItem('user')
+        }
       });
       const data = await res.json();
       console.log(data);
       setUser(res.data)
       // store the user in localStorage
       localStorage.setItem('user', JSON.stringify(res.data))
-      console.log(res.data)
+      
       if (data.errors) {
         setEmailError(data.errors.email);
 
@@ -42,12 +43,12 @@ const Login = () => {
       }
       if (data.user) {
         setUser(data.user)
-       
+
       }
     } catch (error) {
       console.log(error);
 
-    } 
+    }
   }
 
   if (user) {
@@ -55,6 +56,7 @@ const Login = () => {
   }
   return (
     <Container className="login">
+      
       <h2>Sign In</h2>
       <Form className="form">
         <Col>

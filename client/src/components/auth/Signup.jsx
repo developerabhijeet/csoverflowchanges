@@ -6,65 +6,75 @@ import {
 } from 'reactstrap';
 import axios from 'axios';
 class Signup extends Component {
-   constructor(){
-     super()
-     this.state={
-       name:'',
-       email:'',
-       password:'',
-       bio:'',
-       jobtitle:'',
-       tech:''
-     }
-   }
-  changeName = (event) =>{
-    this.setState({
-      name:event.target.value
-    })
+  constructor() {
+    super()
+    this.state = {
+      name: '',
+      email: '',
+      password: '',
+      bio: '',
+      jobtitle: '',
+      tech: '',
+      image:null,
+    }
   }
-  
-  changeEmail = (event)=>{
+  changeName = (event) => {
     this.setState({
-      email:event.target.value
-    })
-  }
-  changePassword = (event) =>{
-    this.setState({
-      password:event.target.value
-    })
-  }
-  changeBio = (event) =>{
-    this.setState({
-      bio:event.target.value
-    })
-  }
-  changeJobtitle = (event) =>{
-    this.setState({
-      jobtitle:event.target.value
-    })
-  }
-  changeTech = (event) =>{
-    this.setState({
-      tech:event.target.value
+      name: event.target.value
     })
   }
 
-  onSubmit = (event)=>{
+  changeEmail = (event) => {
+    this.setState({
+      email: event.target.value
+    })
+  }
+  changePassword = (event) => {
+    this.setState({
+      password: event.target.value
+    })
+  }
+  changeBio = (event) => {
+    this.setState({
+      bio: event.target.value
+    })
+  }
+  changeJobtitle = (event) => {
+    this.setState({
+      jobtitle: event.target.value
+    })
+  }
+  changeTech = (event) => {
+    this.setState({
+      tech: event.target.value
+    })
+  }
+  changeImage = (event)=>{
+    this.setState({ image:event.target.files[0] })
+   
+  }
+
+  onSubmit = (event) => {
     event.preventDefault()
-
+    // var  fd  = new FormData();
+    // fd.append("image", this.state.image);
+    // console.log(fd)
     const registered = {
       name: this.state.name,
       email: this.state.email,
       password: this.state.password,
       bio: this.state.bio,
       jobtitle: this.state.jobtitle,
-      tech: this.state.tech
+      tech: this.state.tech,
+      image: this.state.image
 
     }
+    console.log(registered)
+    
     axios.post('http://localhost:4000/app/signup', registered)
-    .then(response=> console.log(response.data))
+      .then(response => console.log(response.data))
 
-    window.location = '/';
+    //window.location = '/';
   }
   render() {
     return (
@@ -118,7 +128,7 @@ class Signup extends Component {
                 name="bio"
                 id="bio"
                 placeholder="Enter a breif Introduction about Yourself"
-                onChange={this.changeBio}
+                onChange={this.changeBio.bind(this)}
                 value={this.state.bio}
               />
             </FormGroup>
@@ -149,6 +159,20 @@ class Signup extends Component {
               />
             </FormGroup>
           </Col>
+
+          <Col>
+            <FormGroup>
+              <Label>Profile Picture*</Label>
+              <Input
+                type="file"
+                name="image"
+                id="image"
+                onChange={this.changeImage}
+              />
+            </FormGroup>
+          </Col>
+
+
           <Button className="btn-submit">Submit</Button>
         </Form>
       </Container>
