@@ -13,44 +13,25 @@ const createJWT = id => {
   })
 }
 
-router.post('/signup',async (request, response) => {
+router.post('/signup', async (request, response)=>{
   const saltPassword = await bcrypt.genSalt(10)
   const securePassword = await bcrypt.hash(request.body.password, saltPassword)
-  const image = request.files.image;
-  console.log(image)
-  const signedUpUser = new User({
+  const signedUp = new User({
     name: request.body.name,
     email: request.body.email,
     password: securePassword,
     bio: request.body.bio,
     jobtitle: request.body.jobtitle,
-    tech: request.body.tech,
+    tech: request.body.tech
   })
-  console.log(signedUpUser)/*
-  image.mv('public/image/'+image.name,function(err){
-    if(err)
-    {
-      res.json({"state":"file not uploaded"})
-    }
+  signedUp.save()
+  .then(data=>{
+    response.json(data)
   })
-  const signedUpUser = new User({
-    name: request.body.name,
-    email: request.body.email,
-    password: securePassword,
-    bio: request.body.bio,
-    jobtitle: request.body.jobtitle,
-    tech: request.body.tech,
-    image: url + '/public/'+ req.image.filename
+  .catch(error=>{
+    response.json(error)
   })
-  signedUpUser.save()
-    .then(data => {
-      response.json(data)
-    })
-    .catch(error => {
-      response.json(error)
-    })*/
 })
-
 
 router.post('/post', async (request, response) => {
   const posted = new Post({
@@ -68,24 +49,34 @@ router.post('/post', async (request, response) => {
 })
 router.route('/editprofile/:id').put((req,res)=>{
   let id = req.body.id;
-  const updateData = {
-    name: req.body.name,
-    bio: req.body.bio,
-    tech: req.body.tech,
-    jobtitle: req.body.jobtitle 
-  }
-  console.log(id)
-  console.log(updateData)
-  try{
-  User.findByIdAndUpdate(id,updateData).then(data => {
-    res.json(data)
+  var image = req.files.image;
+  console.log(image)
+  image.mv('public/image'+image.name, function(err){
+    if(err){
+      res.json({"status":"error occured during upload"})
+    }else{
+      const updateData = {
+        name: req.body.name,
+        bio: req.body.bio,
+        tech: req.body.tech,
+        jobtitle: req.body.jobtitle,
+        image: image.name
+      }
+    }
+      console.log(id)
+      console.log(updateData)
+      try{
+      User.findByIdAndUpdate(id,updateData).then(data => {
+        res.json(data)
+      })
+      .catch(error => {
+        res.json(error)
+      })
+      }catch(err){
+        console.log(err);
+      }
   })
-  .catch(error => {
-    res.json(error)
-  })
-  }catch(err){
-    console.log(err);
-  }
+ 
 })
 
 router.route('/').get((req, res) => {

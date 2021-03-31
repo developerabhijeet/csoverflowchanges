@@ -28,21 +28,20 @@ const signUpTemplate = new mongoose.Schema({
     type: String,
     required: true
   },
-  image:{
+  image:[{
     type: String,
-    required: true
  
-  },
+  }],
   date: {
     type: Date,
     default: Date.now
   }
 })
-// signUpTemplate.pre('save', async function (next) {
-//   const salt = await bcrypt.genSalt(10);
-//   this.password = await bcrypt.hash(this.password, salt);
-//   next()
-// })
+//  signUpTemplate.pre('save', async function (next) {
+//    const salt = await bcrypt.genSalt(10);
+//    this.password = await bcrypt.hash(this.password, salt);
+//    next()
+//  })
 signUpTemplate.statics.login = async function (email, password) {
 
   const user = await this.findOne({ email });

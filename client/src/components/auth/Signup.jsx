@@ -15,7 +15,6 @@ class Signup extends Component {
       bio: '',
       jobtitle: '',
       tech: '',
-      image:null,
     }
   }
   changeName = (event) => {
@@ -49,16 +48,11 @@ class Signup extends Component {
       tech: event.target.value
     })
   }
-  changeImage = (event)=>{
-    this.setState({ image:event.target.files[0] })
-   
-  }
+  
 
   onSubmit = (event) => {
     event.preventDefault()
-    // var  fd  = new FormData();
-    // fd.append("image", this.state.image);
-    // console.log(fd)
+   
     const registered = {
       name: this.state.name,
       email: this.state.email,
@@ -66,7 +60,7 @@ class Signup extends Component {
       bio: this.state.bio,
       jobtitle: this.state.jobtitle,
       tech: this.state.tech,
-      image: this.state.image
+     
 
     }
     console.log(registered)
@@ -74,7 +68,7 @@ class Signup extends Component {
     axios.post('http://localhost:4000/app/signup', registered)
       .then(response => console.log(response.data))
 
-    //window.location = '/';
+    window.location = '/';
   }
   render() {
     return (
@@ -156,18 +150,6 @@ class Signup extends Component {
                 placeholder="ReactJS, NodeJS, Python "
                 onChange={this.changeTech}
                 value={this.state.tech}
-              />
-            </FormGroup>
-          </Col>
-
-          <Col>
-            <FormGroup>
-              <Label>Profile Picture*</Label>
-              <Input
-                type="file"
-                name="image"
-                id="image"
-                onChange={this.changeImage}
               />
             </FormGroup>
           </Col>

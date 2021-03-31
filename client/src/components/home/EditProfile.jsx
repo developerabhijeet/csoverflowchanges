@@ -14,15 +14,15 @@ const EditProfile = (props) => {
 
     const [name, setName] = useState('');
     const [bio, setBio] = useState('');
-    
+    const [image, setImage] = useState('');
     const [tech, setTech] = useState('');
     const [jobtitle, setJobtitle] = useState('');
     const ids = useParams();
-    console.log(props.user._id)
+    console.log(ids)
     const updateProfile=(e)=>{
       e.preventDefault();
-      
-      fetch(`http://localhost:4000/app/editprofile/${ids._id}`, {
+      console.log(image)
+      fetch(`http://localhost:4000/app/editprofile/${ids.id}`, {
         method: 'put',
         headers: {
           "Content-Type": "application/json",
@@ -33,12 +33,12 @@ const EditProfile = (props) => {
           name,
           bio,
           tech,
-          jobtitle 
+          jobtitle,
+          image
         })
       }).then(res => res.json())
         .then(result => {
           console.log(result)
-          toast.success("You are login successfully!");
           return result
           
         }).catch(err=>{
@@ -99,6 +99,18 @@ const EditProfile = (props) => {
                 placeholder="ReactJS, NodeJS, Python "
                 value={tech}
                 onChange={e=>setTech(e.target.value)}
+              />
+            </FormGroup>
+          </Col>
+
+          <Col>
+            <FormGroup>
+              <Label>Profile Picture*</Label>
+              <Input
+                type="file"
+                name="image"
+                id="image"
+                onChange={e=>setImage(e.target.files[0])}
               />
             </FormGroup>
           </Col>
