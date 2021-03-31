@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { UserContext } from '../../UserContext';
 import {
 
@@ -7,6 +7,7 @@ import {
   FormGroup, Label, Input,
   Button,
 } from 'reactstrap';
+
 const Login = () => {
   const { user, setUser } = useContext(UserContext);
   const [email, setEmail] = useState('')
@@ -91,7 +92,8 @@ const Login = () => {
           </FormGroup>
         </Col>
         <Button className="btn-submit" onClick={submitHandler}>Submit</Button>
-      </Form>
+      </Form><br/>
+      <Label><Link to="/resetpassword">Forgot Password?</Link></Label>
     </Container>
   );
 }

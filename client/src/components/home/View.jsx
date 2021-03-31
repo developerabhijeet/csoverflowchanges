@@ -109,7 +109,7 @@ const View = (props) => {
         console.log(err);
       })
   }
-
+ 
 
   return (
     <Container className="container">
@@ -124,7 +124,8 @@ const View = (props) => {
       </Col>
       <Col>
         <Label className="font-weight-bold details">POSTED ON: </Label>
-        <Label className="details">{posts.date}</Label>
+        <Label className="details">
+        {posts.date}</Label>
       </Col>
       <Col>
         <Label className="font-weight-bold details">LIKES: </Label>

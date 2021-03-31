@@ -18,10 +18,10 @@ const EditProfile = (props) => {
     const [tech, setTech] = useState('');
     const [jobtitle, setJobtitle] = useState('');
     const ids = useParams();
-    console.log(ids)
+    console.log(props.user._id)
     const updateProfile=(e)=>{
       e.preventDefault();
-      console.log(image)
+      
       fetch(`http://localhost:4000/app/editprofile/${ids.id}`, {
         method: 'put',
         headers: {
@@ -34,7 +34,7 @@ const EditProfile = (props) => {
           bio,
           tech,
           jobtitle,
-          image
+        
         })
       }).then(res => res.json())
         .then(result => {

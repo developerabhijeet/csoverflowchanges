@@ -66,7 +66,9 @@ class Signup extends Component {
     console.log(registered)
     
     axios.post('http://localhost:4000/app/signup', registered)
-      .then(response => console.log(response.data))
+      .then((response) =>{ console.log(response.data)
+        alert(`${response.message}`)
+      })
 
     window.location = '/';
   }

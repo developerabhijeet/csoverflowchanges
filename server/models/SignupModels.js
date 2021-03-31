@@ -32,6 +32,8 @@ const signUpTemplate = new mongoose.Schema({
     type: String,
  
   }],
+  resetToken: String,
+  expireToken: Date,
   date: {
     type: Date,
     default: Date.now
