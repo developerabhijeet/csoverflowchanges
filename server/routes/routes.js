@@ -6,6 +6,8 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+const multer = require('multer');
+const path = require('path')
 const sendgridTransport = require('nodemailer-sendgrid-transport')
 const requireLogin = require('../middleware/requireLogin')
 
@@ -21,6 +23,63 @@ const transporter = nodemailer.createTransport(sendgridTransport({
   }
 }))
 
+router.use('/public', express.static('public'));
+
+const storage = multer.diskStorage({
+    destination : function(req, file , cb){
+        cb(null , './public/');
+    },
+    filename: function(req, file, cb){
+        cb(null, file.originalname)
+    }
+});
+
+const upload = multer({storage : storage});
+router.put('/upload',upload.single("file"),(req,res)=>{
+  let id = req.body.id;
+  let file = req.body.image
+  console.log(id)
+  console.log(req.body.image)
+  console.log(file) 
+  const url = req.protocol+ '://' + req.get('host')
+  
+  const Imagedata={
+    image: url+"/public/"+file.name
+  }
+  try{
+    User.findByIdAndUpdate(id,Imagedata).then(data => {
+      res.json(data)
+    })
+    .catch(error => {
+      res.json(error)
+    })
+    }catch(err){
+      console.log(err);
+    }
+})
+router.route('/editprofile/:id').put((req,res)=>{
+  let id = req.body.id;
+  
+    
+      const updateData = {
+        bio: req.body.bio,
+        tech: req.body.tech,
+        jobtitle: req.body.jobtitle,
+        
+      }
+      console.log(updateData)
+      try{
+      User.findByIdAndUpdate(id,updateData).then(data => {
+        res.json(data)
+      })
+      .catch(error => {
+        res.json(error)
+      })
+      }catch(err){
+        console.log(err);
+      }
+    })
+ 
 router.post('/signup', async (request, response)=>{
   const saltPassword = await bcrypt.genSalt(10)
   const securePassword = await bcrypt.hash(request.body.password, saltPassword)
@@ -120,28 +179,6 @@ router.post('/post', async (request, response) => {
 })
 
 
-router.route('/editprofile/:id').put((req,res)=>{
-  let id = req.body.id;
-    
-      const updateData = {
-        name: req.body.name,
-        bio: req.body.bio,
-        tech: req.body.tech,
-        jobtitle: req.body.jobtitle
-      }
-      console.log(updateData)
-      try{
-      User.findByIdAndUpdate(id,updateData).then(data => {
-        res.json(data)
-      })
-      .catch(error => {
-        res.json(error)
-      })
-      }catch(err){
-        console.log(err);
-      }
-    })
- 
 
 router.route('/').get((req, res) => {
   Post.find((error, data) => {

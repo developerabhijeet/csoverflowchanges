@@ -28,10 +28,10 @@ const signUpTemplate = new mongoose.Schema({
     type: String,
     required: true
   },
-  image:[{
+  image:{
     type: String,
  
-  }],
+  },
   resetToken: String,
   expireToken: Date,
   date: {
