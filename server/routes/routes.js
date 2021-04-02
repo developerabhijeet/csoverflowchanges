@@ -37,7 +37,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage : storage});
 router.put('/upload',upload.single("file"),(req,res)=>{
   let id = req.body.id;
-  let file = req.body.image
+  let file = req.body.File
   console.log(id)
   console.log(req.body.image)
   console.log(file) 
