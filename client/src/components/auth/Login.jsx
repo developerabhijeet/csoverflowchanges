@@ -1,63 +1,50 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Redirect, Link } from 'react-router-dom';
+import { loginUserAction } from '../../redux/actions/users/userActions';
 import { UserContext } from '../../UserContext';
+
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Container, Col, Form,
   FormGroup, Label, Input,
   Button,
 } from 'reactstrap';
-const Login = (porps)=>{
+import ErrorMessage from './ErrorMessage';
+const Login = ({history})=>{
 
-  const { user, setUser } = useContext(UserContext);
-   const [email, setEmail] = useState('')
-   const [password, setPassword] = useState('')
-  const [emailError, setEmailError] = useState('')
-  const [passwordError, setPasswordError] = useState('')
-     const submitHandler = async e => {
-     e.preventDefault();
-     setEmailError('');
-     setPasswordError('');
-     
+  // const { user, setUser } = useContext(UserContext);
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const dispatch = useDispatch();
 
-      console.log(email, password)
-      try {
-        const res = await fetch('http://localhost:4000/app/login', {
 
-          method: 'POST',
-          body: JSON.stringify({ email, password }),
-          headers: {
-            'Content-Type': 'application/json',
-            "Authorization": "Bearer" + localStorage.getItem('user')
-          }
-        });
-        const data = await res.json();
-        console.log(data);
-        setUser(res.data)
-        // store the user in localStorage
-        localStorage.setItem('user', JSON.stringify(res.data))
-      
-        if (data.errors) {
-          setEmailError(data.errors.email);
+  const state = useSelector(state=>{
+    return state.userLogin;
+  });
+  const {loading, userInfo, error} = state
+  console.log(state)
+  const submitHandler = e =>{
+    e.preventDefault();
+    
+    dispatch(loginUserAction(email,password));
+    //Redirect to Home Page after success in login
+   
 
-          setPasswordError(data.errors.password);
-        }
-        if (data.user) {
-          setUser(data.user)
 
-        }
-      } catch (error) {
-        console.log(error);
-      }
+  };
+  useEffect(()=>{
+    if(userInfo){
+      history.push('/');
     }
+  },[state]);
 
-   if (user) {
-     return <Redirect to="/" />
-   }
   return (
     <Container className="login">
       
-      <h2>Sign In</h2>
-      <Form className="form">
+      <h2>Sign In</h2><br/>
+      {loading && <h4>Loading...</h4>}
+      {error && <ErrorMessage>{error}</ErrorMessage>}
+      <Form className="form" onSubmit={submitHandler}>
         <Col>
           <FormGroup>
             <Label>Email*</Label>
@@ -68,10 +55,10 @@ const Login = (porps)=>{
               id="exampleEmail"
               placeholder="myemail@email.com"
               value={email}
-              onChange={(e)=>setEmail(e.target.value)}
+              onChange={e=>setEmail(e.target.value)}
             />
-            <div className="email error red-text">{emailError}</div>
-            <label htmlFor="email">Email</label>
+            {/* <div className="email error red-text">{emailError}</div>
+            <label htmlFor="email">Email</label> */}
           </FormGroup>
         </Col>
         <Col>
@@ -83,13 +70,13 @@ const Login = (porps)=>{
               id="examplePassword"
               placeholder="********"
               value={password}
-              onChange={(e)=>setPassword(e.target.value)}
+              onChange={e=>setPassword(e.target.value)}
             />
-            <div className="password error red-text">{passwordError}</div>
-            <label htmlFor="password">Password</label>
+            {/* <div className="password error red-text">{passwordError}</div>
+            <label htmlFor="password">Password</label> */}
           </FormGroup>
         </Col>
-        <Button className="btn-submit" onClick={submitHandler}>Submit</Button>
+        <Button className="btn-submit">Submit</Button>
       </Form><br/>
       <Label><Link to="/resetpassword">Forgot Password?</Link></Label>
     </Container>

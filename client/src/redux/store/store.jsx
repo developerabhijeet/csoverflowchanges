@@ -6,7 +6,7 @@ import { userReducer } from '../reducers/userAuthReducer';
 const middlewares = [thunk]; 
 
 const reducer = combineReducers({
-  userLogin: userReducer
+  userLogin: userReducer//for Signup and Login both
 });
 //getting user from localStorage and save it into our store
 

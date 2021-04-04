@@ -2,10 +2,9 @@ const express = require('express')
 const app = express();
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
+
 const routeUrls = require('./routes/routes')
 const bodyParser = require('body-parser');
-const morgan = require('morgan');
-const path =require('path');
 const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
@@ -19,8 +18,7 @@ app.get('/get-cookies', (req, res) => {
 
 app.use('/uploads',express.static('uploads'))
 
-mongoose.connect(process.env.DATABASE_ACCESS,{useFindAndModify:false, useCreateIndex:true ,useNewUrlParser: true,
-  useUnifiedTopology: true}, () => console.log("database connected successfullly"));
+mongoose.connect("mongodb://localhost:27017/usetable",{useFindAndModify:false, useCreateIndex:true ,useNewUrlParser: true,useUnifiedTopology: true}, () => console.log("database connected successfullly"));
 
 app.use(express.json())
 

@@ -44,24 +44,25 @@ const signUpTemplate = new mongoose.Schema({
 //    this.password = await bcrypt.hash(this.password, salt);
 //    next()
 //  })
-signUpTemplate.statics.login = async function (email, password) {
+// signUpTemplate.statics.login = async function (email, password) {
 
-  const user = await this.findOne({ email });
-  console.log(email)
-  console.log(user)
-  if (user) {
+//   const user = await this.findOne({ email });
+//   console.log(email)
+//   console.log(user)
+//   if (user) {
 
-    const isAuthenticated = await bcrypt.compare(password, user.password);
-    console.log(isAuthenticated)
-    //console.log(user);
-    if (isAuthenticated) {
-      return user;
-    }
-    else{
-    throw Error('incorrect pwd');
-  }
-}else {
-    throw Error('incorrect email');
-  }
-}
+//     const isAuthenticated = await bcrypt.compare(password, user.password);
+//     console.log(isAuthenticated)
+//     //console.log(user);
+//     if (isAuthenticated) {
+//       return user;
+      
+//     }
+//     else{
+//     throw Error('incorrect pwd');
+//   }
+// }else {
+//     throw Error('incorrect email');
+//   }
+// }
 module.exports = mongoose.model('usetable', signUpTemplate)
