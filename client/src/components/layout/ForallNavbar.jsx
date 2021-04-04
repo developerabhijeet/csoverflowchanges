@@ -14,22 +14,21 @@ import download from './download.png'
 import SignedOutNav from './SignedOutNav';
 import SignedInNav from './SignedInNav';
 
-const ForallNavbar = ({users}) => {
-  const { user, setUser } = useContext(UserContext)
-  const logout = async () => {
-    try {
-      const res = await fetch('http://localhost:4000/logout', {
-      });
-      const data = res.json();
-      console.log('logout data', data);
-      setUser(null);
-    } catch (error) {
-      console.log(error);
-    }
+const ForallNavbar = () => {
+  // const [user, setUser ] = useContext(UserContext)
+  // const logout = async () => {
+  //   try {
+  //     const res = await fetch('http://localhost:4000/logout', {
+  //     });
+  //     const data = res.json();
+  //     console.log('logout data', data);
+  //     setUser(null);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
 
-  }
-  const menu = user ? <SignedInNav logout={logout} users={users} /> : <SignedOutNav />
-  return (
+  // }
+   return (
     <div>
       <Navbar className="light navigation" color="orange" light expand="md">
         <NavbarToggler />
@@ -41,9 +40,18 @@ const ForallNavbar = ({users}) => {
             <NavItem className="blank">
               <NavLink><Link to="/">   </Link></NavLink>
             </NavItem>
-
-            {menu}
-
+            <NavItem className="blank">
+              <NavLink><Link to="/login"> Login  </Link></NavLink>
+            </NavItem>
+            <NavItem className="blank">
+              <NavLink><Link to="/signup">  Signup </Link></NavLink>
+            </NavItem>
+            <NavItem className="blank">
+              <NavLink to="/login"> Logout</NavLink>
+            </NavItem>
+            <NavItem className="blank">
+              <NavLink><Link to="/">Home</Link></NavLink>
+        </NavItem>
           </Nav>
         </Collapse>
 

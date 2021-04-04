@@ -17,35 +17,21 @@ import Reset from './components/auth/Reset';
 import NewPassword from './components/auth/NewPassword';
 
 function App() {
-  const [user, setUser] = useState(null)
-  useEffect(() => {
-    const verifyUser = async () => {
-      try {
-        const res = await fetch('http://localhost:4000/app/verifyuser', {
-          headers: { 'Content-Type': 'application/json' }
-        });
-        const data = await res.json()
-        setUser(data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    verifyUser()
-  }, [])
+ 
   return (
     <div className="App">
-      <UserContext.Provider value={{ user, setUser }}>
-        <ForallNavbar users={user}/>
+      <UserContext.Provider>
+        <ForallNavbar />
         <Switch>
-          <Route exact path="/" render={() => (user ? (<Home />) : (<Redirect to="/" />))} />
+          <Route exact path="/" component={Home} />
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
           <Route path="/resetpassword" component={Reset} />
-          <Route exact path="/post" render={() => (user ? (<Post user={user} />) : (<Redirect to="/" />))} />
+          {/* <Route exact path="/post" component={Post}/>
           <Route path="/profile/:id" component={Profile} />
-          <Route exact path="/post/:id" render={() => (user ? (<View user={user} />) : (<Redirect to="/" />))} />
+          <Route exact path="/post/:id" component={View}/>
           <Route exact path="/user/:id" component={ViewUser} />
-          <Route exact path="/editprofile/:id" render={() => (user ? (<EditProfile user={user} />) : (<Redirect to="/" />))} />
+          <Route exact path="/editprofile/:id" component={EditProfile} /> */}
           <Route exact path="/newpassword/:token" component={NewPassword}/>
 
           <Route exact path="/search" component={Search} />
