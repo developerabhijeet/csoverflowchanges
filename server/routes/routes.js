@@ -245,11 +245,11 @@ router.post('/login', async (req, res) => {
         res.status(201).json({ user })
       }else{
         res.status(401)
-        throw new Error('OOPS, Your Password is Invalid')
+      res.json({message:'OOPS, Your Password is Invalid'})
       }
     }else{
       res.status(401)
-      throw new Error('OOPS!, Entered Email ID does not exists')
+      res.json({message:'OOPS!, Entered Email ID does not exists'})
     }
     
   }catch (error) {

@@ -47,15 +47,20 @@ const loginUserAction = (email,password)=>{
         type: USER_LOGIN_REQUEST,
       });
 
-      const config={
+      const config = {
         headers: {
-          "Content-Type": "application/JSON"
-        }
-      }
-    const {data} = await axios.post('http://localhost:4000/app/login',
-    {email,password},
-     config
-     );
+          'Content-Type': 'application/json',
+        },
+      };
+      const { data } = await axios.post('http://localhost:4000/app/login', {
+       
+        email,
+        password,
+       
+
+      },
+        config
+      );
     dispatch({
       type: USER_LOGIN_SUCCESS,
       payload: data,
@@ -64,8 +69,7 @@ const loginUserAction = (email,password)=>{
     //saving user to localStorage
     localStorage.setItem('userAuthData', JSON.stringify(data));
    
-    }catch(error){
-      console.log(error)
+    }catch(error) {
       dispatch({
         type: USER_LOGIN_FAIL,
         payload: error.response && error.response.data.message,
