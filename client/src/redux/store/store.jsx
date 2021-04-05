@@ -1,12 +1,13 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { userReducer } from '../reducers/userAuthReducer';
+import { postReducer, userReducer } from '../reducers/userAuthReducer';
 
 const middlewares = [thunk]; 
 
 const reducer = combineReducers({
-  userLogin: userReducer//for Signup and Login both
+  userLogin: userReducer,
+  postProblem: postReducer//for Signup and Login both
 });
 //getting user from localStorage and save it into our store
 

@@ -4,14 +4,19 @@ import {
   Container, Col, Label,
   Button, Form
 } from 'reactstrap';
-
 import { Link } from 'react-router-dom';
 import './post.css';
+import { useSelector } from 'react-redux';
 const View = (props) => {
   //console.log(props.user._id)
   const ids = useParams()
   const [posts, setPosts] = useState([]);
   const [data, setData] = useState([]);
+  const state = useSelector(state=>{
+    return state.userLogin;
+  });
+  const {loading,userInfo, error} = state
+ // console.log(state);
 
   useEffect(() => {
     fetch(`http://localhost:4000/app/post/${ids.id}`)
@@ -96,6 +101,7 @@ const View = (props) => {
       })
     }).then(res => res.json())
       .then(result => {
+        console.log(result)
         const newData = data.map(posts => {
           if (posts._id == result._id) {
             return result
@@ -142,12 +148,12 @@ const View = (props) => {
             <p>No likes Yet</p>
 
             :
-            posts.likes.includes(props.user._id) ?
+            posts.likes.includes(state.userInfo.user._id) ?
               <Button color="danger"
-                onClick={() => { unlikePost(posts._id, props.user._id) }}>Unlike</Button>
+                onClick={() => { unlikePost(posts._id, state.userInfo.user._id) }}>Unlike</Button>
               :
               <Button color="success"
-                onClick={() => { likePost(posts._id, props.user._id) }}>Like</Button>
+                onClick={() => { likePost(posts._id, state.userInfo.user._id) }}>Like</Button>
         }
 
       </Col>
@@ -156,17 +162,14 @@ const View = (props) => {
 
         <Form className="form formstyle" onSubmit={(e) => {
           e.preventDefault()
-          console.log(e.target[0].value)
-          console.log(posts._id)
-          console.log(props.user.name)
-          makeComment(e.target[0].value, posts._id, props.user.name, props.user._id)
+          makeComment(e.target[0].value, posts._id, state.userInfo.user.name, state.userInfo.user._id)
         }}>
           <textarea className="comment-area" col="500" rows="10"></textarea><br />
           <Button className="" color="primary"> Comment</Button>
         </Form>
       </Col>
       <Col className="show-comment">
-        {posts.comments == undefined || null ? <p>no comments yet</p>
+        {posts.comments == undefined || null ? <h3>No Comments Yet</h3>
           :
           posts.comments.map(record => {
             return (
