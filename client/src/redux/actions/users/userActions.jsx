@@ -107,7 +107,7 @@ const postAction = (name, post, domain) => {
         payload: data,
       });
 
-    } catch (error) {
+    }catch(error) {
       dispatch({
         type: POST_FAIL,
         payload: error.response && error.response.data.message,
@@ -125,7 +125,7 @@ const logoutUserAction = () => async dispatch => {
     });
   } catch (error) {
   }
-}
+};
 
 const editUserProfile = (id, bio, tech, jobtitle) => {
   return async dispatch => {
@@ -133,11 +133,10 @@ const editUserProfile = (id, bio, tech, jobtitle) => {
       dispatch({
         type: USER_EDITPROFILE_REQUEST,
       });
-
-
       const config = {
         headers: {
-          'Content-Type': 'application/json',       },
+          'Content-Type': 'application/json',    
+        },
       };
       const { data } = await axios.put('http://localhost:4000/app/editprofile', {
         id,
@@ -148,18 +147,18 @@ const editUserProfile = (id, bio, tech, jobtitle) => {
 
       },
         config
-      ); dispatch({
+      ); 
+      dispatch({
         type: USER_EDITPROFILE_SUCCESS,
         payload: data,
       });
       localStorage.setItem('userAuthData', JSON.stringify(data));
-  
-    } catch (error) {
+    }catch(error) {
       dispatch({
         type: USER_EDITPROFILE_FAIL,
         payload: error.response && error.response.data.message,
       });
     }
-  }
-}
+  };
+};
 export { signupuserAction, loginUserAction, postAction, logoutUserAction, editUserProfile };

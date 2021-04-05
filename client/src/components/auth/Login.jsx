@@ -34,6 +34,7 @@ const Login = ({history})=>{
   };
   useEffect(()=>{
     if(userInfo){
+      
       history.push('/');
     }
   },[state]);

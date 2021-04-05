@@ -20,6 +20,9 @@ const ForallNavbar = () => {
   const logoutHandler = () =>{
     dispatch(logoutUserAction())
   }
+
+  const currentUser = localStorage.getItem('userAuthData')
+  ? JSON.parse(localStorage.getItem('userAuthData')) : null;
   return (
     <div>
       <Navbar className="light navigation" color="orange" light expand="md">
@@ -33,26 +36,27 @@ const ForallNavbar = () => {
               <NavLink><Link to="/">   </Link></NavLink>
             </NavItem>
          
-            {!userInfo?( 
+            {userInfo?( 
               <>
-              <NavItem className="navs">
-              <NavLink><Link to="/login"> Login  </Link></NavLink>
-            </NavItem>
-            <NavItem className="navs">
-              <NavLink><Link to="/signup">  Signup </Link></NavLink>
-            </NavItem>
-            </>
-            ):(<>
                <NavItem className="navs">
               <NavLink><Link to="/">Home</Link></NavLink>
             </NavItem>
               <NavItem className="navs">
-              <NavLink><Link to={`/profile/${userInfo.user._id}`}>Profile</Link></NavLink>
+              <NavLink><Link to={`/profile/${currentUser._id}`}>Profile</Link></NavLink>
             </NavItem>
             <NavItem className="navs">
               <NavLink onClick={logoutHandler}><Link to="/login"> Logout</Link></NavLink>
             </NavItem>
 
+            </>
+            ):(<>
+            <NavItem className="navs">
+              <NavLink><Link to="/login"> Login  </Link></NavLink>
+            </NavItem>
+            <NavItem className="navs">
+              <NavLink><Link to="/signup">  Signup </Link></NavLink>
+            </NavItem>
+              
             </>)}
             
           
