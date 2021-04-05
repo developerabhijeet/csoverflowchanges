@@ -14,17 +14,20 @@ const View = (props) => {
 
 
   //console.log(props.user._id)
-  const ids = useParams()
   const [posts, setPosts] = useState([]);
   const [data, setData] = useState([]);
   const state = useSelector(state=>{
     return state.userLogin;
   });
   const {loading,userInfo, error} = state
+
+  const currentUser = localStorage.getItem('userAuthData')
+  ? JSON.parse(localStorage.getItem('userAuthData')) : null;
+  const id = currentUser._id;
  // console.log(state);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/app/post/${ids.id}`)
+    fetch(`http://localhost:4000/app/post/${id}`)
       .then(res => res.json()
         .then(res => {
           setPosts(res)
@@ -155,7 +158,7 @@ const View = (props) => {
             <p>No likes Yet</p>
 
             :
-            posts.likes.includes(state.userInfo.user._id) ?
+            posts.likes.includes(userInfo.user._id) ?
               <Button color="danger"
                 onClick={() => { unlikePost(posts._id, state.userInfo.user._id) }}>Unlike</Button>
               :
