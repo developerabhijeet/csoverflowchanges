@@ -57,9 +57,9 @@ router.put('/upload', upload.single("file"), (req, res) => {
     console.log(err);
   }
 })
-router.route('/editprofile/:id').put((req, res) => {
+router.route('/editprofile').put((req, res) => {
   let id = req.body.id;
-
+  
 
   const updateData = {
     bio: req.body.bio,
@@ -67,9 +67,11 @@ router.route('/editprofile/:id').put((req, res) => {
     jobtitle: req.body.jobtitle,
 
   }
+  console.log(id)
   console.log(updateData)
   try {
     User.findByIdAndUpdate(id, updateData).then(data => {
+      console.log('success')
       res.json(data)
     })
       .catch(error => {

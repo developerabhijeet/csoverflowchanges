@@ -1,7 +1,18 @@
 .blank{
-  margin-left: 400px;
+  margin-left: 1500px;
 }
-
+.navs{
+  background-color: black;
+  color: white;
+  width:70px;
+  height: 50px;
+  align-items: center;
+}.navs:hover{
+  background-color: white;
+  width:80px;
+  height: 70px;
+  align-items: center;
+}
 .navigation{
   background-color: darkorange;
   color: white;

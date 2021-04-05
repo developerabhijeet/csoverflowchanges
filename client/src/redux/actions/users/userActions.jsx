@@ -137,10 +137,7 @@ const editUserProfile = (id, bio, tech, jobtitle) => {
 
       const config = {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': "Bearer" + localStorage.getItem('useAuthData')
-        },
-        
+          'Content-Type': 'application/json',       },
       };
       const { data } = await axios.put('http://localhost:4000/app/editprofile', {
         id,
@@ -148,15 +145,15 @@ const editUserProfile = (id, bio, tech, jobtitle) => {
         tech,
         jobtitle,
 
+
       },
         config
       ); dispatch({
         type: USER_EDITPROFILE_SUCCESS,
         payload: data,
       });
-      
-
-    
+      localStorage.setItem('userAuthData', JSON.stringify(data));
+  
     } catch (error) {
       dispatch({
         type: USER_EDITPROFILE_FAIL,

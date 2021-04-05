@@ -10,25 +10,17 @@ import {
 
 } from 'reactstrap';
 import { UserContext } from '../../UserContext';
-import download from './download.png'
-import SignedOutNav from './SignedOutNav';
-import SignedInNav from './SignedInNav';
-
+import download from './download.png';
+import { useSelector, useDispatch } from 'react-redux';
+import { logoutUserAction } from '../../redux/actions/users/userActions';
 const ForallNavbar = () => {
-  // const [user, setUser ] = useContext(UserContext)
-  // const logout = async () => {
-  //   try {
-  //     const res = await fetch('http://localhost:4000/logout', {
-  //     });
-  //     const data = res.json();
-  //     console.log('logout data', data);
-  //     setUser(null);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-
-  // }
-   return (
+  const state= useSelector(state=> state.userLogin)
+  const {loading, userInfo, error} = state;
+  const dispatch  = useDispatch();
+  const logoutHandler = () =>{
+    dispatch(logoutUserAction())
+  }
+  return (
     <div>
       <Navbar className="light navigation" color="orange" light expand="md">
         <NavbarToggler />
@@ -40,18 +32,30 @@ const ForallNavbar = () => {
             <NavItem className="blank">
               <NavLink><Link to="/">   </Link></NavLink>
             </NavItem>
-            <NavItem className="blank">
+         
+            {!userInfo?( 
+              <>
+              <NavItem className="navs">
               <NavLink><Link to="/login"> Login  </Link></NavLink>
             </NavItem>
-            <NavItem className="blank">
+            <NavItem className="navs">
               <NavLink><Link to="/signup">  Signup </Link></NavLink>
             </NavItem>
-            <NavItem className="blank">
-              <NavLink to="/login"> Logout</NavLink>
-            </NavItem>
-            <NavItem className="blank">
+            </>
+            ):(<>
+               <NavItem className="navs">
               <NavLink><Link to="/">Home</Link></NavLink>
-        </NavItem>
+            </NavItem>
+              <NavItem className="navs">
+              <NavLink><Link to={`/profile/${userInfo.user._id}`}>Profile</Link></NavLink>
+            </NavItem>
+            <NavItem className="navs">
+              <NavLink onClick={logoutHandler}><Link to="/login"> Logout</Link></NavLink>
+            </NavItem>
+
+            </>)}
+            
+          
           </Nav>
         </Collapse>
 

@@ -17,7 +17,11 @@ const Post = new mongoose.Schema({
   comments: [{
     text: String,
     postedBy: { type: String, ref: "usetable" },
-    userInfo: { type: ObjectId, ref: "usetable" }
+    userInfo: { type: ObjectId, ref: "usetable" },
+    date: {
+      type: Date,
+      default: Date.now
+    }
   }],
 
   date: {

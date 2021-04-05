@@ -6,7 +6,8 @@ import {
 } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { postReducer } from '../../redux/reducers/userAuthReducer';
-const Post =({history})=>{
+import { postAction } from '../../redux/actions/users/userActions';
+const Post =()=>{
   
   const [post, setPost] = useState('');
   const [domain, setDomain] = useState('');
@@ -16,46 +17,23 @@ const Post =({history})=>{
     return state.userLogin;
   });
   const{loading, userInfo,error} = state;
-  const name = state.userInfo.user.name;
-  const postProblem = useSelector(state=>state.postProblem);
-  const {postInfo} = postProblem;
+  const username = state.userInfo.user.name;
+  const name = username;
  
   console.log(name)
   const onSubmit = e=>{
     e.preventDefault();
-    if((e.target[0].value)==null||(e.target[0].value)==undefined){
+    if((e.target.value)==''){
       alert('all fields must be filled')
     }else{
-    dispatch(postReducer(name,post,domain));
-    window.location = '/'
+      dispatch(postAction(name,post,domain))
+      window.location='/'
   }
 }
-  // const [post,setPost] = useState('');
-  // const [domain,setDomain] = useState('');
-  // const state = useSelector(state=>{
-  //   return state.userLogin;
-  // });
-  // const {loading, userInfo, error} = state
-  // const x = state.userInfo.user;
-  // console.log(x.name)
-  // console.log(state.userInfo.user)
-  const popup = () =>{
+const popup = () =>{
     alert("you are not allowed to change the name");
   }
-  // const onSubmit = e=>{
-  //   e.preventDefault();
-
-  //   const posted = {
-  //     name: state.userInfo.user.name,
-  //     post,
-  //     domain
-  //   }
-  //   axios.post('http://localhost:4000/app/post', posted)
-  //     .then(response => console.log(response.data))
-
-  //   window.location = '/';
-
-  // }
+  
 
     return (
       <div>

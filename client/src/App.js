@@ -31,7 +31,7 @@ function App() {
           <Route exact path="/profile/:id" component={Profile} />
           <Route exact path="/post/:id" component={View} />
           <Route exact path="/user/:id" component={ViewUser} />
-          <Route exact path="/editprofile/:id" component={EditProfile} />
+          <Route exact path="/editprofile" component={EditProfile} />
           <Route exact path="/newpassword/:token" component={NewPassword} />
           <Route exact path="/search" component={Search} />
         </Switch>

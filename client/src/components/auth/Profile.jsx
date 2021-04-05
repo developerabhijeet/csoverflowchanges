@@ -52,7 +52,7 @@ const Profile = () => {
         </tbody>
       </center>
       <br/>
-      <center><Link className="link" to={`/editprofile/${user._id}`}>Edit Profile</Link></center>
+      <center><Link className="link" to='/editprofile'>Edit Profile</Link></center>
     </Table>
   
 
