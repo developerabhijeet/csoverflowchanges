@@ -19,12 +19,32 @@ const postReducer = (state = {}, action) => {
       return state;
   }
 }
+
+const updateReducer = (state={},action)=>{
+  switch(action.type){
+    case USER_EDITPROFILE_REQUEST:
+      return {
+        loading: true,
+      }
+    case USER_EDITPROFILE_SUCCESS:
+      return {
+        user: action.payload,
+        success: true,
+      }
+    case USER_EDITPROFILE_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      }
+      default:
+        return state;
+  }
+}
 const userReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_REGISTER_REQUEST:
       return {
         loading: true,
-
       };
     case USER_REGISTER_SUCCESS:
       return {
@@ -35,6 +55,8 @@ const userReducer = (state = {}, action) => {
         error: action.payload,
         loading: false,
       };
+
+
     //Login
     case USER_LOGIN_REQUEST:
       return {
@@ -50,20 +72,8 @@ const userReducer = (state = {}, action) => {
       };
     case USER_LOGOUT_SUCCESS:
       return {};
-    case USER_EDITPROFILE_REQUEST:
-      return{
-        loading: true,
-      }
-    case USER_EDITPROFILE_SUCCESS:
-      return{
-        userInfo: action.payload,
-      }
-    case USER_EDITPROFILE_FAIL:
-      return{
-        error: action.payload,
-      }
     default:
       return state;
   }
 }
-export { userReducer,postReducer };
+export { userReducer, postReducer, updateReducer };
