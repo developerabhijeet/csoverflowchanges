@@ -5,36 +5,27 @@ import {
   Button,
 } from 'reactstrap';
 import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { newPasswordAction } from '../../redux/actions/users/userActions';
 
 
-const NewPassword = () => {
+const NewPassword = ({history}) => {
   const {token} = useParams();
-  const [password, setPassword] = useState("")
-  const postData=()=>{
-    fetch('http://localhost:4000/app/newpassword',{
-      method: "post",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body: JSON.stringify({
-        password,
-        token
-      })
-    }).then(res=>res.json())
-      .then(data=>{
-        alert("Your password changed successfully!")
-            console.log(data.message)
-            console.log(data)
-            
-        
-      })
-    
+  const [password, setPassword] = useState('')
+  const dispatch = useDispatch();
+  const submitHandler = e =>{
+    e.preventDefault();
+    dispatch(newPasswordAction(token,password))
+    alert("Hurray! Your password reset successfully")
+    history.push('/login')
   }
+    
+  
   return (
     <Container className="login">
       
     <h2>Change Password:</h2>
-    <Form className="form">
+    <Form className="form" onSubmit={submitHandler}>
     <Col>
           <FormGroup>
             <Label for="examplePassword">Password*</Label>
@@ -48,7 +39,7 @@ const NewPassword = () => {
             />
             </FormGroup>
         </Col>
-      <Button onClick={postData}>Change Password</Button>
+      <Button>Change Password</Button>
       </Form>
       </Container>
   )

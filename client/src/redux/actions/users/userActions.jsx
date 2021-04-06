@@ -1,5 +1,5 @@
 //causing change of state in application
-import { USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, POST_REQUEST, POST_SUCCESS, POST_FAIL, USER_EDITPROFILE_FAIL, USER_EDITPROFILE_SUCCESS, USER_EDITPROFILE_REQUEST, USER_LOGOUT_SUCCESS } from './actionTypes';
+import { USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, POST_REQUEST, POST_SUCCESS, POST_FAIL, USER_EDITPROFILE_FAIL, USER_EDITPROFILE_SUCCESS, USER_EDITPROFILE_REQUEST, USER_LOGOUT_SUCCESS, NEWPASSWORD_FAIL, NEWPASSWORD_REQUEST, NEWPASSWORD_SUCCESS, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAIL } from './actionTypes';
 import axios from 'axios';
 
 const signupuserAction = (name, email, password, bio, jobtitle, tech) => {
@@ -163,4 +163,66 @@ const editUserProfile = (id, bio, tech, jobtitle) => {
     }
   };
 };
-export { signupuserAction, loginUserAction, postAction, logoutUserAction, editUserProfile };
+
+const newPasswordAction = (token, password)=>{
+  return async dispatch=>{
+    try{
+      dispatch({
+        type: NEWPASSWORD_REQUEST,
+      });
+      const config = {
+        headers:{
+          'Content-Type': 'application/json',
+        },
+      };
+      const {data} = await axios.post('http://localhost:4000/app/newpassword',{
+        
+        token,
+        password,
+      },
+      config
+      );
+      dispatch({
+        type: NEWPASSWORD_SUCCESS,
+        payload: data,
+      });
+
+    }catch(error){
+      dispatch({
+      type: NEWPASSWORD_FAIL,
+      payload: error.response && error.response.data.message,
+    });
+  }
+  }
+}
+
+const resetPasswordAction = (email) =>{
+  return async dispatch=>{
+    try{
+      dispatch({
+        type: RESET_PASSWORD_REQUEST,
+      });
+      const config = {
+        headers:{
+          'Content-Type': 'application/json',
+        },
+      };
+      const {data} = await axios.post('http://localhost:4000/app/resetpassword',{
+        email,
+      },
+      config
+      );
+      dispatch({
+        type: RESET_PASSWORD_SUCCESS,
+        payload: data,
+      });
+    
+    }catch(error){
+      dispatch({
+        type: RESET_PASSWORD_FAIL,
+        payload: error.response && error.response.data.message,
+      });
+    }
+  }
+}
+export { signupuserAction, loginUserAction, postAction, logoutUserAction, editUserProfile, newPasswordAction, resetPasswordAction };

@@ -1,35 +1,26 @@
-import React,{useState} from 'react'
+import React,{useState} from 'react';
+import { useDispatch } from 'react-redux';
 import {
+
 
   Container, Col, Form,
   FormGroup, Label, Input,
   Button,
 } from 'reactstrap';
+import { resetPasswordAction } from '../../redux/actions/users/userActions';
 const Reset = () => {
   const [email, setEmail] = useState("")
-  const postData=()=>{
-    fetch('http://localhost:4000/app/resetpassword',{
-      method: "post",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body: JSON.stringify({
-        email
-      })
-    }).then(res=>res.json())
-      .then(data=>{
-        alert("Check your mail for password reset link")
-            console.log(data.message)
-            console.log(data)
-        
-      })
-    
+  const dispatch = useDispatch();
+  const submitHandler = e =>{
+    e.preventDefault();
+    dispatch(resetPasswordAction(email));
+    alert("Great! Please check your Inbox!")
   }
   return (
     <Container className="login">
       
     <h2>Reset Password:</h2>
-    <Form className="form">
+    <Form className="form" onSubmit={submitHandler}>
       <Col>
         <FormGroup>
           <Label>Email*</Label>
@@ -46,7 +37,7 @@ const Reset = () => {
          
         </FormGroup>
       </Col>
-      <Button onClick={postData}>Send Email</Button>
+      <Button>Send Email</Button>
       </Form>
       </Container>
   )

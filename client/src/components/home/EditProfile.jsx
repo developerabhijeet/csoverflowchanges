@@ -22,9 +22,13 @@ const [tech, setTech] = useState(userInfo?.tech);
 const [jobtitle, setJobtitle] = useState(userInfo?.jobtitle);
 const dispatch = useDispatch();
 const updateProfileHandler = e =>{
+  if(bio==''||tech==''||jobtitle==''){
+    alert('Fields cannot be empty')
+  }else{
   e.preventDefault();
   dispatch(editUserProfile(id,bio,tech,jobtitle))
   history.push(`/profile/${id}`)
+}
 }
   return (
     <Container className="signup">

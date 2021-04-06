@@ -1,4 +1,4 @@
-import { USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGIN_FAIL, POST_REQUEST, POST_SUCCESS, POST_FAIL, USER_LOGOUT_SUCCESS, USER_EDITPROFILE_REQUEST, USER_EDITPROFILE_SUCCESS, USER_EDITPROFILE_FAIL } from "../actions/users/actionTypes";
+import { USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGIN_FAIL, POST_REQUEST, POST_SUCCESS, POST_FAIL, USER_LOGOUT_SUCCESS, USER_EDITPROFILE_REQUEST, USER_EDITPROFILE_SUCCESS, USER_EDITPROFILE_FAIL, NEWPASSWORD_FAIL, NEWPASSWORD_REQUEST, NEWPASSWORD_SUCCESS, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAIL } from "../actions/users/actionTypes";
 
 const postReducer = (state = {}, action) => {
   switch (action.type) {
@@ -19,9 +19,44 @@ const postReducer = (state = {}, action) => {
       return state;
   }
 }
-
-const updateReducer = (state={},action)=>{
-  switch(action.type){
+const newPassword = (state = {}, action) => {
+  switch (action.type) {
+    case NEWPASSWORD_REQUEST:
+      return {
+        loading: true,
+      }
+    case NEWPASSWORD_SUCCESS:
+      return {
+        passwordInfo: action.payload,
+      }
+    case NEWPASSWORD_FAIL:
+      return {
+        error: action.payload
+      };
+    default:
+      return state;
+  }
+}
+const resetPassword = (state = {}, action) => {
+  switch (action.type) {
+    case RESET_PASSWORD_REQUEST:
+      return {
+        loading: true,
+      }
+    case RESET_PASSWORD_SUCCESS:
+      return {
+        resetInfo: action.payload,
+      }
+    case RESET_PASSWORD_FAIL:
+      return {
+        error: action.payload,
+      };
+    default:
+      return state;
+  }
+}
+const updateReducer = (state = {}, action) => {
+  switch (action.type) {
     case USER_EDITPROFILE_REQUEST:
       return {
         loading: true,
@@ -36,8 +71,8 @@ const updateReducer = (state={},action)=>{
         loading: false,
         error: action.payload,
       }
-      default:
-        return state;
+    default:
+      return state;
   }
 }
 const userReducer = (state = {}, action) => {
@@ -76,4 +111,4 @@ const userReducer = (state = {}, action) => {
       return state;
   }
 }
-export { userReducer, postReducer, updateReducer };
+export { userReducer, postReducer, updateReducer, newPassword, resetPassword };
