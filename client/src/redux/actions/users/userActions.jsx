@@ -13,6 +13,7 @@ const signupuserAction = (name, email, password, bio, jobtitle, tech) => {
           'Content-Type': 'application/json',
         },
       };
+    
       const { data } = await axios.post('http://localhost:4000/app/signup', {
         name,
         email,
@@ -128,31 +129,32 @@ const logoutUserAction = () => async dispatch => {
 };
 
 const editUserProfile = (id, bio, tech, jobtitle) => {
-  return async dispatch => {
+  return async (dispatch,getState) => {
     try {
       dispatch({
         type: USER_EDITPROFILE_REQUEST,
+
       });
-      const config = {
+       const {userInfo} = getState().userLogin;
+       const config = {
         headers: {
-          'Content-Type': 'application/json',    
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${userInfo._id}`,
         },
-      };
-      const { data } = await axios.put('http://localhost:4000/app/editprofile', {
-        id,
-        bio,
-        tech,
-        jobtitle,
-
-
-      },
-        config
-      ); 
-      dispatch({
+       };
+       const {data} = axios.put('http://localhost:4000/app/editprofile',{
+         id,
+         bio,
+         tech,
+         jobtitle
+       },
+       config
+       );
+       dispatch({
         type: USER_EDITPROFILE_SUCCESS,
         payload: data,
       });
-      localStorage.setItem('userAuthData', JSON.stringify(data));
+
     }catch(error) {
       dispatch({
         type: USER_EDITPROFILE_FAIL,

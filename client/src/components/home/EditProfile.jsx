@@ -11,42 +11,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import { editUserProfile } from '../../redux/actions/users/userActions';
 const EditProfile = ({ history }) => {
 
-  const [bio, setBio] = useState('');
-  const [tech, setTech] = useState('');
-  const [jobtitle, setJobtitle] = useState('');
 
- 
-  const dispatch = useDispatch();
 
-  const currentUser = localStorage.getItem('userAuthData')
-  ? JSON.parse(localStorage.getItem('userAuthData')) : null;
-  const id = currentUser._id;
+const userLogin = useSelector(state=> state.userLogin);
+const {userInfo} = userLogin;
 
- 
-
-const state = useSelector(state=>{
-  return state.userLogin;
-});
-const {loading, userInfo, error} = state
-  const updateProfile = e => {
-    e.preventDefault();
-    if(bio==''||jobtitle==''||tech==''){
-      alert("All fields are required")
-    }else{
-    dispatch(editUserProfile(id, bio, tech, jobtitle));
-    history.push(`/profile/${currentUser._id}`);
-  }
+const id  = userInfo.user._id
+const [bio, setBio] = useState(userInfo?.bio);
+const [tech, setTech] = useState(userInfo?.tech);
+const [jobtitle, setJobtitle] = useState(userInfo?.jobtitle);
+const dispatch = useDispatch();
+const updateProfileHandler = e =>{
+  e.preventDefault();
+  dispatch(editUserProfile(id,bio,tech,jobtitle))
+  history.push(`/profile/${id}`)
 }
-
   return (
     <Container className="signup">
       <h2>Edit Profile</h2>
-      <Form className="form" onSubmit={updateProfile} >
+      <Form className="form" onSubmit={updateProfileHandler} >
     
         <Col>
           <FormGroup>
-            <Label for="name">Name: {currentUser.name}</Label>
-
+            <center><Label for="name">Name: {userInfo.user.name}</Label>
+            </center>
+            
           </FormGroup>
         </Col>
 

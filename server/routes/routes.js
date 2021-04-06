@@ -57,29 +57,27 @@ router.put('/upload', upload.single("file"), (req, res) => {
     console.log(err);
   }
 })
-router.route('/editprofile').put((req, res) => {
+router.route('/editprofile').put(async(req, res) => {
   let id = req.body.id;
-  
-
-  const updateData = {
-    bio: req.body.bio,
-    tech: req.body.tech,
-    jobtitle: req.body.jobtitle,
-
-  }
-  console.log(id)
-  console.log(updateData)
-  try {
-    User.findByIdAndUpdate(id, updateData).then(data => {
-      console.log('success')
-      res.json(data)
-    })
-      .catch(error => {
-        res.json(error)
-      })
-  } catch (err) {
-    console.log(err);
-  }
+ 
+  const user = await User.findById(id);
+  if(user){
+   
+      user.bio= req.body.bio || user.bio;
+      user.tech= req.body.tech || user.tech;
+      user.jobtitle= req.body.jobtitle || user.jobtitle;
+  const updatedUser = await user.save();
+    
+  res.json({
+    _id: updatedUser._id,
+    name: updatedUser.name,
+    email: updatedUser.email,
+    password: updatedUser.password,
+    bio: updatedUser.bio,
+    jobtitle: updatedUser.jobtitle,
+    tech: updatedUser.tech
+  }); 
+  } 
 })
 
 router.post('/signup', async (request, response) => {
