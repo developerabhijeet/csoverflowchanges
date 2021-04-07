@@ -11,18 +11,6 @@ const path = require('path')
 const sendgridTransport = require('nodemailer-sendgrid-transport')
 const requireLogin = require('../middleware/requireLogin')
 
-const maxAge = 5 * 24 * 60 * 60
-const createJWT = id => {
-  return jwt.sign({ id }, 'chatroom secret', {
-    expiresIn: maxAge
-  })
-}
-const transporter = nodemailer.createTransport(sendgridTransport({
-  auth: {
-    api_key: "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"
-  }
-}))
-
 router.use('/public', express.static('public'));
 
 const storage = multer.diskStorage({
@@ -35,21 +23,31 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-router.put('/upload', upload.single("file"), (req, res) => {
-  let id = req.body.id;
-  let file = req.body.File
+const maxAge = 5 * 24 * 60 * 60
+const createJWT = id => {
+  return jwt.sign({ id }, 'chatroom secret', {
+    expiresIn: maxAge
+  })
+}
+const transporter = nodemailer.createTransport(sendgridTransport({
+  auth: {
+    api_key: "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"
+  }
+}))
+
+router.route('/upload').put((req, res) => {
+  // console.log(req)
+  let id = req.body.userid;
+  let file = req.file;
   console.log(id)
-  console.log(req.body.image)
-  console.log(file)
+  console.log(req.body)
   const url = req.protocol + '://' + req.get('host')
 
   const Imagedata = {
     image: url + "/public/" + file.name
   }
   try {
-    User.findByIdAndUpdate(id, Imagedata).then(data => {
-      res.json(data)
-    })
+   User.findByIdAndUpdate(id, Imagedata).then(data =>res.json(data))
       .catch(error => {
         res.json(error)
       })

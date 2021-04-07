@@ -8,7 +8,7 @@ import {
 
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { editUserProfile } from '../../redux/actions/users/userActions';
+import { editUserProfile, uploadImageAction } from '../../redux/actions/users/userActions';
 const EditProfile = ({ history }) => {
 
 
@@ -17,9 +17,10 @@ const userLogin = useSelector(state=> state.userLogin);
 const {userInfo} = userLogin;
 
 const id  = userInfo.user._id
-const [bio, setBio] = useState(userInfo?.bio);
-const [tech, setTech] = useState(userInfo?.tech);
-const [jobtitle, setJobtitle] = useState(userInfo?.jobtitle);
+const [bio, setBio] = useState(userInfo.user?.bio);
+const [tech, setTech] = useState(userInfo.user?.tech);
+const [jobtitle, setJobtitle] = useState(userInfo.user?.jobtitle);
+const [file, setFile] = useState()
 const dispatch = useDispatch();
 const updateProfileHandler = e =>{
   if(bio==''||tech==''||jobtitle==''){
@@ -30,6 +31,15 @@ const updateProfileHandler = e =>{
   history.push(`/profile/${id}`)
 }
 }
+const updateImage = e =>{
+  e.preventDefault();
+  const filedata = new FormData();
+  console.log(file)
+  filedata.append("file",file);
+  console.log(filedata)
+  dispatch(uploadImageAction(id,file))
+}
+
   return (
     <Container className="signup">
       <h2>Edit Profile</h2>
@@ -81,6 +91,21 @@ const updateProfileHandler = e =>{
               onChange={e => setTech(e.target.value)}
             />
           </FormGroup>
+        </Col>
+
+        <Col>
+          <FormGroup>
+            <Label>Upload Profile Image*</Label>
+            <Input
+              type="file"
+              name="file"
+              id="file"
+              onChange={e => setFile(e.target.files[0])}
+            />
+          </FormGroup>
+          <br/>
+
+        <Button className="btn-submit" onClick={updateImage}>Upload</Button>
         </Col>
 
 

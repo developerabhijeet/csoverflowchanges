@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { newPassword, postReducer, updateReducer, userReducer, resetPassword } from '../reducers/userAuthReducer';
+import { newPassword, postReducer, updateReducer, userReducer, resetPassword,uploadImageReducer} from '../reducers/userAuthReducer';
 
 const middlewares = [thunk]; 
 
@@ -10,7 +10,8 @@ const reducer = combineReducers({
   postProblem: postReducer,
   updatedUser: updateReducer,
   updatePassword: newPassword,
-  requestPassword: resetPassword 
+  requestPassword: resetPassword,
+  uploadImage: uploadImageReducer,
 });
 //getting user from localStorage and save it into our store
 

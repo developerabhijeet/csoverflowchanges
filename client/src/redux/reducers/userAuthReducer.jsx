@@ -1,5 +1,22 @@
-import { USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGIN_FAIL, POST_REQUEST, POST_SUCCESS, POST_FAIL, USER_LOGOUT_SUCCESS, USER_EDITPROFILE_REQUEST, USER_EDITPROFILE_SUCCESS, USER_EDITPROFILE_FAIL, NEWPASSWORD_FAIL, NEWPASSWORD_REQUEST, NEWPASSWORD_SUCCESS, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAIL } from "../actions/users/actionTypes";
-
+import { USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_REGISTER_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGIN_FAIL, POST_REQUEST, POST_SUCCESS, POST_FAIL, USER_LOGOUT_SUCCESS, USER_EDITPROFILE_REQUEST, USER_EDITPROFILE_SUCCESS, USER_EDITPROFILE_FAIL, NEWPASSWORD_FAIL, NEWPASSWORD_REQUEST, NEWPASSWORD_SUCCESS, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAIL, IMAGE_REQUEST, IMAGE_SUCCESS, IMAGE_FAIL} from "../actions/users/actionTypes";
+const uploadImageReducer = (state = {}, action) => {
+  switch (action.type) {
+    case IMAGE_REQUEST:
+      return {
+        loading: true,
+      };
+    case IMAGE_SUCCESS:
+      return {
+        userInfo: action.payload,
+      };
+    case IMAGE_FAIL:
+      return {
+        error: action.payload
+      };
+    default:
+      return state;
+  }
+}
 const postReducer = (state = {}, action) => {
   switch (action.type) {
     //post
@@ -55,6 +72,7 @@ const resetPassword = (state = {}, action) => {
       return state;
   }
 }
+
 const updateReducer = (state = {}, action) => {
   switch (action.type) {
     case USER_EDITPROFILE_REQUEST:
@@ -111,4 +129,4 @@ const userReducer = (state = {}, action) => {
       return state;
   }
 }
-export { userReducer, postReducer, updateReducer, newPassword, resetPassword };
+export { userReducer, postReducer, updateReducer, newPassword, resetPassword, uploadImageReducer };

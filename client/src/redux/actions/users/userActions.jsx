@@ -1,5 +1,5 @@
 //causing change of state in application
-import { USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, POST_REQUEST, POST_SUCCESS, POST_FAIL, USER_EDITPROFILE_FAIL, USER_EDITPROFILE_SUCCESS, USER_EDITPROFILE_REQUEST, USER_LOGOUT_SUCCESS, NEWPASSWORD_FAIL, NEWPASSWORD_REQUEST, NEWPASSWORD_SUCCESS, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAIL } from './actionTypes';
+import { USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, POST_REQUEST, POST_SUCCESS, POST_FAIL, USER_EDITPROFILE_FAIL, USER_EDITPROFILE_SUCCESS, USER_EDITPROFILE_REQUEST, USER_LOGOUT_SUCCESS, NEWPASSWORD_FAIL, NEWPASSWORD_REQUEST, NEWPASSWORD_SUCCESS, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAIL, IMAGE_REQUEST, IMAGE_SUCCESS, IMAGE_FAIL} from './actionTypes';
 import axios from 'axios';
 
 const signupuserAction = (name, email, password, bio, jobtitle, tech) => {
@@ -146,7 +146,7 @@ const editUserProfile = (id, bio, tech, jobtitle) => {
          id,
          bio,
          tech,
-         jobtitle
+         jobtitle,  
        },
        config
        );
@@ -176,7 +176,6 @@ const newPasswordAction = (token, password)=>{
         },
       };
       const {data} = await axios.post('http://localhost:4000/app/newpassword',{
-        
         token,
         password,
       },
@@ -225,4 +224,39 @@ const resetPasswordAction = (email) =>{
     }
   }
 }
-export { signupuserAction, loginUserAction, postAction, logoutUserAction, editUserProfile, newPasswordAction, resetPasswordAction };
+const uploadImageAction = (userid,file)=>{
+    return async (dispatch, getState)=>{
+      try{
+        dispatch({
+          type: IMAGE_REQUEST,
+        });
+        const {userInfo} = getState().userLogin;
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+            
+          'Authorization': `Bearer ${userInfo._id}`,
+          },
+         };
+         console.log(file)
+         const {data}= axios.put('http://localhost:4000/app/upload',{
+         
+         userid,
+         file,
+         },
+         config
+         );
+         dispatch({
+           type: IMAGE_SUCCESS,
+           payload: data,
+         })
+      }catch(error){
+        dispatch({
+          type: IMAGE_FAIL,
+          payload: error.response && error.response.data.message,
+        });
+      }
+    }
+  }
+
+export { signupuserAction, loginUserAction, postAction, logoutUserAction, editUserProfile, newPasswordAction, resetPasswordAction, uploadImageAction};

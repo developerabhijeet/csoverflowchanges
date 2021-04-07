@@ -1,4 +1,8 @@
-
+.searchfield{
+  border-radius: 10px 20px 10px 20px;
+  border-color: darkorange;
+  box-shadow: darkorange;
+}
 .post{
   background-color: #383838;
   color: white;

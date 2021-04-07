@@ -4,16 +4,11 @@ import {
   Container, Col, Label,
   Button, Form
 } from 'reactstrap';
-import TimeAgo from 'javascript-time-ago';
-// English.
-import en from 'javascript-time-ago/locale/en';
 import { Link } from 'react-router-dom';
 import './post.css';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 const View = (props) => {
 
-
-  //console.log(props.user._id)
   const ids = useParams()
   const [posts, setPosts] = useState([]);
   const [data, setData] = useState([]);
@@ -33,6 +28,8 @@ const View = (props) => {
         }))
   }
   );
+
+
 
   const likePost = (id, user_Id) => {
     fetch('http://localhost:4000/app/like', {
@@ -91,8 +88,6 @@ const View = (props) => {
         console.log(err)
       })
   }
-  TimeAgo.addLocale(en)
-  const timeAgo =new TimeAgo('en-US')
   const makeComment = (texts, post_id, user_Name, user_Id) => {
     fetch('http://localhost:4000/app/comment', {
       method: "put",
@@ -161,8 +156,10 @@ const View = (props) => {
               :
               <Button color="success"
                 onClick={() => { likePost(posts._id, state.userInfo.user._id) }}>Like</Button>
-        }
 
+
+          
+        }
       </Col>
 
       <Col>
@@ -186,7 +183,7 @@ const View = (props) => {
                 </span>
 
                 <br />
-                {/* <p className="comment">{record.text}</p><p className="comment">{timeAgo.format(record.date)}</p></h6> */}
+           
                 <p className="comment">{record.text}</p><p className="comment">{record.date}</p></h6> 
             )
           })

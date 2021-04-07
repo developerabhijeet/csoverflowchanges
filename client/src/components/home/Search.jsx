@@ -5,6 +5,7 @@ import {
   Button,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import './post.css';
 const Search = (props) => {
   const [search, setSearch] = useState('')
   const [postDetails, setPostDetails] = useState([])
@@ -27,12 +28,10 @@ const Search = (props) => {
     <div>
       <Form>
         <Col>
-          <Input type="text" name="search" placeholder="search problem here"
+          <Input type="text" className="w-25 searchfield" name="search" placeholder="search problem here"
             value={search} onChange={e => fetchPost(e.target.value)} />
         </Col>
-        <Col>
-          <Button className="primary" color="success">Search Posts</Button>
-        </Col>
+      
       </Form>
       <ul>
         {postDetails.map(post => {

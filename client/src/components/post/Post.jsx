@@ -40,28 +40,29 @@ const popup = () =>{
         <Container className="signup">
           <h2>Post Your Problems</h2>
           <Form className="form" onSubmit={onSubmit}>
-            <MDBCol md="8" className="post-text-center">
+            <MDBCol md="6" className="post-text-center">
               <MDBInput type="textarea"
                 label="Enter Your Errors above"
-                rows="5"
+                rows="10"
                 onChange = {e=>setPost(e.target.value)}
                 value={post} />
             </MDBCol>
-            <Input
+            <Input className="w-50"
               type="text"
               name="name"
               id="name"
               placeholder="You are not allowed to change name"
               onChange={popup}
               value={state.userInfo.user.name} />
-            <Input
+            <Input className="w-50"
               type="text"
               name="domain"
               id="domain"
               placeholder="Enter The Problem Domain"
               onChange={e=>setDomain(e.target.value)}
               value={domain} />
-            <Button className="btn-submit">Post</Button>
+              <br/>
+            <Button className="btn-submit primary">Post</Button>
           </Form>
         </Container>
       </div>
