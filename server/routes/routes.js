@@ -37,24 +37,21 @@ const transporter = nodemailer.createTransport(sendgridTransport({
   }
 }))
 router.post('/upload',upload.single("file"),async (req,res)=>{
-  const userId = req.body.userid
+ 
+  
+  const id = req.body.userid
+  const filename = req.body.filedata
   try{
     const url = req.protocol+'://'+req.get('host')
-    console.log(req.File);
-    const image = new ProfileImage({
-      image :url + "/public/" + req.file.filename,
-      userId: userId,
-    })
-    console.log(image)
-    const profile = await image.save();
-    res.status(200).send(profile);
-    const newProfile = await ProfileImage.findById(id);
-    newProfile.exec(function(err,data){
-      if(err) throw err;
-
-      res.render({records: data});
-    })
-    console.log("successfully uploaded")
+    console.log(req.file);
+    const Imagedata ={
+      image :url + "/public/" + filename,
+    }
+    console.log
+    await User.findByIdAndUpdate(id, Imagedata).then(data =>res.json(data))
+      .catch(error => {
+        res.json(error)
+      })
   }catch(error){
     res.status(400).send(error)
   }
@@ -88,10 +85,7 @@ router.route('/profileImage').get(async (req,res)=>{
 //   }
   
  
-//    await User.findByIdAndUpdate(id, Imagedata).then(data =>res.json(data))
-//       .catch(error => {
-//         res.json(error)
-//       })
+
  
 // })
 router.route('/editprofile').put(async(req, res) => {

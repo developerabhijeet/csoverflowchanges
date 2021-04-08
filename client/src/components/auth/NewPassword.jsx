@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import {
   Container, Col, Form,
   FormGroup, Label, Input,
@@ -7,26 +7,21 @@ import {
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { newPasswordAction } from '../../redux/actions/users/userActions';
-
-
-const NewPassword = ({history}) => {
-  const {token} = useParams();
+const NewPassword = ({ history }) => {
+  const { token } = useParams();
   const [password, setPassword] = useState('')
   const dispatch = useDispatch();
-  const submitHandler = e =>{
+  const submitHandler = e => {
     e.preventDefault();
-    dispatch(newPasswordAction(token,password))
+    dispatch(newPasswordAction(token, password))
     alert("Hurray! Your password reset successfully")
     history.push('/login')
   }
-    
-  
   return (
     <Container className="login">
-      
-    <h2>Change Password:</h2>
-    <Form className="form" onSubmit={submitHandler}>
-    <Col>
+      <h2>Change Password:</h2>
+      <Form className="form" onSubmit={submitHandler}>
+        <Col>
           <FormGroup>
             <Label for="examplePassword">Password*</Label>
             <Input
@@ -37,13 +32,11 @@ const NewPassword = ({history}) => {
               value={password}
               onChange={e => setPassword(e.target.value)}
             />
-            </FormGroup>
+          </FormGroup>
         </Col>
-      <Button>Change Password</Button>
+        <Button>Change Password</Button>
       </Form>
-      </Container>
+    </Container>
   )
 }
-
-
 export default NewPassword;

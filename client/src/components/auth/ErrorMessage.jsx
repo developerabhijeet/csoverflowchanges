@@ -1,10 +1,8 @@
 import React from 'react'
-
-const ErrorMessage = ({children}) => {
+const ErrorMessage = ({ children }) => {
   return (
-    <div style={{background: 'red', color:'white', padding:'3px'}}>
+    <div style={{ background: 'red', color: 'white', padding: '3px' }}>
       {children}
-      
     </div>
   )
 }

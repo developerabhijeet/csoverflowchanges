@@ -25,18 +25,11 @@ const Signup = ({ history }) => {
       history.push('/');
     }
   }, [userInfo])
-
   const submitHandler = e => {
     e.preventDefault();
-    
     //dispatching action
     dispatch(signupuserAction(name, email, password, bio, jobtitle, tech));
-
   }
-
-
-
-
   return (
     <Container className="signup">
       <h2>Sign Up</h2>
@@ -119,13 +112,10 @@ const Signup = ({ history }) => {
             />
           </FormGroup>
         </Col>
-
-
         <Button color="primary" className="btn-submit">Submit</Button>
       </Form>
     </Container>
   );
-
 }
 
 export default Signup;

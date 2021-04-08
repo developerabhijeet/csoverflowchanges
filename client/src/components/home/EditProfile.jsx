@@ -4,70 +4,58 @@ import {
   FormGroup, Label, Input,
   Button, Alert
 } from 'reactstrap';
-
-
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { editUserProfile, uploadImageAction } from '../../redux/actions/users/userActions';
 
 const EditProfile = ({ history }) => {
-  
-const userLogin = useSelector(state=> state.userLogin);
-const {userInfo} = userLogin;
-
-const id  = userInfo.user._id
-const [bio, setBio] = useState(userInfo.user?.bio);
-const [tech, setTech] = useState(userInfo.user?.tech);
-const [jobtitle, setJobtitle] = useState(userInfo.user?.jobtitle);
-const [file, setFile] = useState([])
-const [visible, setVisible] = useState(false);
-
+  const userLogin = useSelector(state => state.userLogin);
+  const { userInfo } = userLogin;
+  const id = userInfo.user._id
+  const [bio, setBio] = useState(userInfo.user?.bio);
+  const [tech, setTech] = useState(userInfo.user?.tech);
+  const [jobtitle, setJobtitle] = useState(userInfo.user?.jobtitle);
+  const [file, setFile] = useState();
+  const [visible, setVisible] = useState(false);
   const onDismiss = () => {
     setVisible(false);
     history.push(`/profile/${id}`)
   }
-
-const dispatch = useDispatch();
-const updateProfileHandler = e =>{
-  if(bio==''||tech==''||jobtitle==''){
-    alert('Fields cannot be empty')
-  }else{
-  e.preventDefault();
-
-  dispatch(editUserProfile(id,bio,tech,jobtitle))
-  setVisible(true);
- 
-}
-}
-const updateImage = e =>{
-  e.preventDefault();
-  console.log(file)
-  const filedata = new FormData();
-  var imagedata = document.querySelector('input[type="file"]').files[0];
-  console.log(imagedata)
-  filedata.append("file",imagedata);
-  
-  console.log(filedata)
- 
-  dispatch(uploadImageAction(id,imagedata))
-}
-
+  const dispatch = useDispatch();
+  const updateProfileHandler = e => {
+    if (bio == '' || tech == '' || jobtitle == '') {
+      alert('Fields cannot be empty')
+    } else {
+      e.preventDefault();
+      dispatch(editUserProfile(id, bio, tech, jobtitle))
+      setVisible(true);
+    }
+  }
+  const updateImage = (e) => {
+    e.preventDefault();
+    console.log(file)
+    const filedata = new FormData();
+    filedata.append("file", file);
+    dispatch(uploadImageAction(id, file.name))
+  }
   return (
     <Container className="signup">
       <Alert color="success" isOpen={visible} toggle={onDismiss}>
-      Your Profile Edited Successfully!
-    </Alert>
+        Your Profile Edited Successfully!
+      </Alert>
       <h2>Edit Profile</h2>
       <Form className="form" onSubmit={updateProfileHandler} >
-    
         <Col>
           <FormGroup>
-            <center><strong><i><Label for="name">Name: {userInfo.user.name}</Label></i></strong>
+            <center>
+              <strong>
+                <i>
+                  <Label for="name">Name: {userInfo.user.name}</Label>
+                </i>
+              </strong>
             </center>
-            
           </FormGroup>
         </Col>
-
         <Col>
           <FormGroup>
             <Label>Bio*</Label>
@@ -108,26 +96,26 @@ const updateImage = e =>{
           </FormGroup>
         </Col>
         <Col>
-          <FormGroup>
-            <Label>Upload Profile Image*</Label>
-            <Input
-              type="file"
-              name="file"
-              id="file"
-              onChange={e => setFile(e.target.files[0])}
-            />
-            <br/>
-              <Button color="primary" className="btn-submit" onClick={updateImage}>Upload</Button>
-          </FormGroup>
-          <br/>
-
-      
+          <form encType="multipart/form-data">
+            <FormGroup>
+              <Label>Upload Profile Image*</Label>
+              <input
+                type="file"
+                name="file"
+                id="file"
+                accept=".jpg,.png,.jpeg"
+                onChange={e => setFile(e.target.files[0])}
+              />
+              <br />
+              <Button color="primary" onClick={updateImage} type="submit" className="btn-submit">Upload</Button>
+            </FormGroup>
+          </form>
+          <br />
         </Col>
         <Col>
-
-        <Button color="primary" className="btn-submit">Submit</Button>
-      </Col>
-        </Form>
+          <Button color="primary" className="btn-submit">Submit</Button>
+        </Col>
+      </Form>
     </Container>
   )
 }

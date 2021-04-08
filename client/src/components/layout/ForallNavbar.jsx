@@ -7,11 +7,12 @@ import {
   Nav,
   NavItem,
   NavLink,
-
 } from 'reactstrap';
 import download from './download.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { logoutUserAction } from '../../redux/actions/users/userActions';
+import Footer from './Footer';
+
 const ForallNavbar = () => {
   const state = useSelector(state => state.userLogin)
   const { loading, userInfo, error } = state;
@@ -19,9 +20,6 @@ const ForallNavbar = () => {
   const logoutHandler = () => {
     dispatch(logoutUserAction())
   }
-
-  // const currentUser = localStorage.getItem('userAuthData')
-  // const id = currentUser.user._id;
   console.log(userInfo)
   return (
     <div>
@@ -35,7 +33,6 @@ const ForallNavbar = () => {
             <NavItem className="blank">
               <NavLink><Link to="/">   </Link></NavLink>
             </NavItem>
-
             {userInfo ? (
               <>
                 <NavItem className="navs">
@@ -47,7 +44,6 @@ const ForallNavbar = () => {
                 <NavItem className="navs">
                   <NavLink onClick={logoutHandler}><Link to="/login"> Logout</Link></NavLink>
                 </NavItem>
-
               </>
             ) : (<>
               <NavItem className="navs">
@@ -56,17 +52,12 @@ const ForallNavbar = () => {
               <NavItem className="navs">
                 <NavLink><Link to="/signup">  Signup </Link></NavLink>
               </NavItem>
-
             </>)}
-
-
           </Nav>
         </Collapse>
-
       </Navbar>
     </div>
   )
 }
-
 
 export default ForallNavbar;
