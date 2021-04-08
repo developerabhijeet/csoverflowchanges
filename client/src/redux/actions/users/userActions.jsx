@@ -224,32 +224,33 @@ const resetPasswordAction = (email) =>{
     }
   }
 }
-const uploadImageAction = (userid,file)=>{
-    return async (dispatch, getState)=>{
+const uploadImageAction = (userid,filedata)=>{
+    return async dispatch=>{
       try{
         dispatch({
           type: IMAGE_REQUEST,
-        });
-        const {userInfo} = getState().userLogin;
+        });; 
         const config = {
           headers: {
-            'Content-Type': 'application/json',
-            
-          'Authorization': `Bearer ${userInfo._id}`,
-          },
+            "Content-Type": "application/json",
+            // "Accept": "application/json",
+            //  "type": "formData"
+          }
          };
-         console.log(file)
-         const {data}= axios.put('http://localhost:4000/app/upload',{
-         
+         console.log(filedata)
+
+  const filesdata = new FormData();
+  filesdata.append("file",filedata);
+         const data= await axios.post('http://localhost:4000/app/upload',{
          userid,
-         file,
-         },
-         config
+         filesdata,
+         }
          );
+         console.log(data)
          dispatch({
            type: IMAGE_SUCCESS,
-           payload: data,
-         })
+           payload: data
+         });
       }catch(error){
         dispatch({
           type: IMAGE_FAIL,

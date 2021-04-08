@@ -62,7 +62,7 @@ const popup = () =>{
               onChange={e=>setDomain(e.target.value)}
               value={domain} />
               <br/>
-            <Button className="btn-submit primary">Post</Button>
+            <Button color="primary"  className="btn-submit primary">Post</Button>
           </Form>
         </Container>
       </div>

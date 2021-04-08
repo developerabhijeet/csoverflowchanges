@@ -1,6 +1,7 @@
-const express = require('express')
-const router = express.Router()
-const User = require('../models/SignupModels')
+const express = require('express');
+const router = express.Router();
+const User = require('../models/SignupModels');
+const ProfileImage = require('../models/ProfileImage');
 const Post = require('../models/Post');
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
@@ -22,7 +23,8 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer();
+
 const maxAge = 5 * 24 * 60 * 60
 const createJWT = id => {
   return jwt.sign({ id }, 'chatroom secret', {
@@ -34,27 +36,64 @@ const transporter = nodemailer.createTransport(sendgridTransport({
     api_key: "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"
   }
 }))
+router.post('/upload',upload.single("file"),async (req,res)=>{
+  const userId = req.body.userid
+  try{
+    const url = req.protocol+'://'+req.get('host')
+    console.log(req.File);
+    const image = new ProfileImage({
+      image :url + "/public/" + req.file.filename,
+      userId: userId,
+    })
+    console.log(image)
+    const profile = await image.save();
+    res.status(200).send(profile);
+    const newProfile = await ProfileImage.findById(id);
+    newProfile.exec(function(err,data){
+      if(err) throw err;
 
-router.route('/upload').put((req, res) => {
-  // console.log(req)
-  let id = req.body.userid;
-  let file = req.file;
-  console.log(id)
-  console.log(req.body)
-  const url = req.protocol + '://' + req.get('host')
-
-  const Imagedata = {
-    image: url + "/public/" + file.name
-  }
-  try {
-   User.findByIdAndUpdate(id, Imagedata).then(data =>res.json(data))
-      .catch(error => {
-        res.json(error)
-      })
-  } catch (err) {
-    console.log(err);
+      res.render({records: data});
+    })
+    console.log("successfully uploaded")
+  }catch(error){
+    res.status(400).send(error)
   }
 })
+
+router.route('/profileImage').get(async (req,res)=>{
+  try{
+    const imageData = await ProfileImage.find();
+    res.status(200).send(imageData);
+    imageData.exec(function(err,data){
+      if(err) throw err;
+      
+      res.render({records: data})
+    })
+  }catch(error){
+    res.status(400).send(error);
+  }
+})
+
+// router.put('/upload',upload.single("image"),async (req, res) => {
+//   // // console.log(req)
+ 
+//   const file = req.file; 
+//   const id = req.body.userid;
+ 
+//   console.log(file)
+//   const url = req.protocol + '://' + req.get('host')
+
+//   const Imagedata = {
+//     image: url + "/public/" + file.filename
+//   }
+  
+ 
+//    await User.findByIdAndUpdate(id, Imagedata).then(data =>res.json(data))
+//       .catch(error => {
+//         res.json(error)
+//       })
+ 
+// })
 router.route('/editprofile').put(async(req, res) => {
   let id = req.body.id;
  

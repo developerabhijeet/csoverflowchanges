@@ -77,7 +77,7 @@ const Login = ({history})=>{
             <label htmlFor="password">Password</label> */}
           </FormGroup>
         </Col>
-        <Button className="btn-submit">Submit</Button>
+        <Button color="primary" className="btn-submit">Submit</Button>
       </Form><br/>
       <Label><Link to="/resetpassword">Forgot Password?</Link></Label>
     </Container>

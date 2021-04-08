@@ -121,7 +121,7 @@ const Signup = ({ history }) => {
         </Col>
 
 
-        <Button className="btn-submit">Submit</Button>
+        <Button color="primary" className="btn-submit">Submit</Button>
       </Form>
     </Container>
   );

@@ -2,7 +2,7 @@ import React, { useState, useEffect, Component, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Container, Col, Label,
-  Button, Form
+  Button, Form, Alert
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './post.css';
@@ -17,7 +17,14 @@ const View = (props) => {
   });
   const {loading,userInfo, error} = state
  // console.log(state);
-
+ const [visible, setVisible] = useState(false)
+ const [dislike, setDislike] = useState(false)
+  const [comment, setComment] = useState(false)
+ const onDismiss = () => {
+   setVisible(false);
+   setDislike(false);
+   setComment(false);
+ }
   useEffect(() => {
     fetch(`http://localhost:4000/app/post/${ids.id}`)
       .then(res => res.json()
@@ -55,6 +62,9 @@ const View = (props) => {
           }
         })
         setData(newData)
+        setVisible(true) 
+        setDislike(false)
+
       }).catch(err => {
         console.log(err)
       })
@@ -84,6 +94,8 @@ const View = (props) => {
           }
         })
         setData(newData)
+        setDislike(true)
+        setVisible(false)
       }).catch(err => {
         console.log(err)
       })
@@ -113,6 +125,9 @@ const View = (props) => {
 
         })
         setData(newData)
+        setComment(true);
+        setVisible(false);
+        setDislike(false);
       }).catch(err => {
         console.log(err);
       })
@@ -121,6 +136,12 @@ const View = (props) => {
 
   return (
     <Container className="container">
+       <Alert color="success" isOpen={visible} toggle={onDismiss}>
+      You Liked the Post!
+    </Alert>
+    <Alert color="danger" isOpen={dislike} toggle={onDismiss}>
+      You Disliked the Post!
+    </Alert>
       <Col>
         <Label className="font-weight-bold posts">{posts.post}</Label>
       </Col>
@@ -163,13 +184,16 @@ const View = (props) => {
       </Col>
 
       <Col>
-
+      <br/>
+      <Alert color="success" isOpen={comment} toggle={onDismiss}>
+      You Comment Posted Successfully!
+    </Alert>
         <Form className="form formstyle" onSubmit={(e) => {
           e.preventDefault()
           makeComment(e.target[0].value, posts._id, state.userInfo.user.name, state.userInfo.user._id)
         }}>
           <textarea className="comment-area" col="500" rows="10"></textarea><br />
-          <Button className="" color="primary"> Comment</Button>
+          <Button color="primary" className="" color="primary"> Comment</Button>
         </Form>
       </Col>
       <Col className="show-comment">
